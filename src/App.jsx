@@ -55,7 +55,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/spotifylogin" element={<SpotifyLogin />} />
+        <Route path="/spotifylogin" element={<SpotifyLogin />} /> 
         <Route path="/callback" element={<Callback />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/spotify" element={<Spotify />} />
