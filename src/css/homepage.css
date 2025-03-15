@@ -1,0 +1,215 @@
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background 0.3s, color 0.3s;
+    background-attachment: fixed;
+    background-size: cover;
+    background: radial-gradient(
+        circle at 30% 30%,
+        rgba(255, 0, 150, 0.4),
+        transparent
+      ),
+      radial-gradient(circle at 70% 70%, rgba(0, 200, 255, 0.4), transparent);
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Dark & Light Mode */
+  .dark-mode {
+    background: linear-gradient(135deg, #0c061d, #2b1d51, #181930);
+    color: #f5f5f5;
+  }
+  
+  .light-mode {
+    background: linear-gradient(135deg, #f7f8fc, #d4d9e3);
+    color: #1a1a1a;
+  }
+  
+  /* Header */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background: linear-gradient(135deg, #ff2d75, #5e00e6);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Buttons */
+  nav button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: white;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  nav button:hover {
+    transform: scale(1.1);
+  }
+  
+  .auth-btn {
+    background: white;
+    color: #5e00e6;
+    border-radius: 25px;
+    padding: 10px 18px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .auth-btn:hover {
+    background: #ff2d75;
+    color: white;
+  }
+  
+  /* Hero Section */
+  .hero {
+    text-align: center;
+    padding: 80px 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    color: white;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  /* Smooth Fade-in Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Start Button */
+  .start-btn {
+    background: #ff2d75;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  
+  .start-btn:hover {
+    background: #5e00e6;
+  }
+  
+  /* Features & Sections */
+  .features{
+    display: flex;
+    justify-content: center;
+  }
+    .about, .how-it-works, .benefits {
+    padding: 40px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.85);
+    margin: 20px auto;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .dark-mode .about,
+  .dark-mode .how-it-works,
+  .dark-mode .benefits {
+    background: rgba(34, 34, 34, 0.85);
+    color: white;
+  }
+  
+   .about:hover, .how-it-works:hover, .benefits:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 7px;
+    background: linear-gradient(135deg, #ff2d75, #5e00e6);
+    color: white;
+    font-weight: bold;
+  }
+  
+  .animated-text {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    color: #ff2d75;
+    height: 40px;
+    overflow: hidden;
+    border-right: 3px solid #ff2d75;
+    white-space: nowrap;
+    display: inline-block;
+    animation: blinkCursor 0.8s infinite;
+  }
+  
+  @keyframes blinkCursor {
+    50% { border-color: transparent; }
+  }
+  
+  section{
+    animation: fadeIn 1s ease-in-out;
+  }
+
+
+  .benefits-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .benefit-card {
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 12px;
+    width: 220px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .dark-mode .benefit-card {
+    background: rgba(50, 50, 50, 0.9);
+  }
+  
+  .benefit-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  h4 {
+    color: #333;
+  }
+  
+  .dark-mode h4 {
+    color: #f8f8f8;
+  }
+  
+  p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .dark-mode p {
+    color: #ddd;
+  }

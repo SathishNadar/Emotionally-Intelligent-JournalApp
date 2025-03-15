@@ -1,0 +1,152 @@
+.mood-tracker {
+    text-align: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .dark-mode .mood-tracker {
+    background: rgba(34, 34, 34, 0.85);
+    color: white;
+  }
+  
+  .mood-tracker:hover {
+    transform: scale(1.02);
+  }
+  
+  .streak-section {
+    text-align: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .dark-mode .streak-section {
+    background: rgba(34, 34, 34, 0.85);
+    color: white;
+  }
+  
+  .streak-bar-container {
+    width: 100%;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 20px;
+    margin: 15px auto;
+    max-width: 600px;
+  }
+  
+  .streak-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff4081, #ffca28);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    transition: width 0.5s ease-in-out;
+  }
+  
+  .streak-text {
+    font-size: 14px;
+  }
+  
+  .milestone-text {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .streak-btn {
+    background: #ff4081;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin-top: 15px;
+  }
+  
+  .streak-btn:hover {
+    background: #ffca28;
+    color: black;
+  }
+  
+  .recommendations {
+    text-align: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dark-mode .recommendations {
+    background: rgba(34, 34, 34, 0.85);
+    color: white;
+  }
+  
+  .mood-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .mood-buttons button {
+    background: #ff4081;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  
+  .mood-buttons button:hover {
+    background: #ffca28;
+    color: black;
+  }
+  
+  .recommendation-box {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .recommendation-box:hover {
+    transform: scale(1.02);
+  }
+  
+  .dark-mode .recommendation-box {
+    background: rgba(50, 50, 50, 0.9);
+    color: white;
+  }
+  
+  .recommendation-box a {
+    color: #ff4081;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .recommendation-box a:hover {
+    text-decoration: underline;
+  }
+  
