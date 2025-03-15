@@ -1,26 +1,24 @@
 import React, { useState } from "react";
 import "../css/signup.css";
 import { Auth, db } from "../backend/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // 📝 Email & Password Signup Function
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(Auth, email, password);
       let user = Auth.currentUser;
-      console.log(user);
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
@@ -28,19 +26,23 @@ const Signup = () => {
           lastname: lname,
         });
       }
-      toast.success("Registration successful!", { position: "top-right" });
+      toast.success("Account created successfully!", { position: "top-right" });
+      navigate("/home"); // Redirect to home after signup
     } catch (error) {
       toast.error("Error: " + error.message, { position: "top-right", autoClose: 3000 });
-      console.log(error.message);
     }
   };
 
-  const Googlesignin = () => {
+  // 🎯 Google Sign-up Function
+  const GoogleSignUp = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(Auth, provider).then(async (res) => {
-      console.log(res);
-    });
-    navigate("/login");
+    try {
+      await signInWithPopup(Auth, provider);
+      toast.success("Google Sign-up Successful!", { position: "top-right" });
+      navigate("/home");
+    } catch (error) {
+      toast.error("Google Sign-up Failed", { position: "top-right" });
+    }
   };
 
   return (
@@ -48,8 +50,10 @@ const Signup = () => {
       <ToastContainer />
       <div className="start">
         <div className="container">
-          <div className="heading">Sign Up</div>
-          {error && <p className="error-message">{error}</p>}
+          <h2 className="page-heading"> Create Your Account</h2>
+          <p className="page-subtext">Join AI Diary and start your journey today!</p>
+
+          {/* ✍️ Email & Password Signup */}
           <form className="form" onSubmit={handleRegister}>
             <input
               type="text"
@@ -83,25 +87,23 @@ const Signup = () => {
               className="input"
               required
             />
-            <button type="submit" className="login-button">
-              Sign Up
-            </button>
+            <button type="submit" className="login-button">Sign Up</button>
           </form>
 
+          {/* 🔵 Google Signup */}
           <div className="social-account-container">
-            <span className="title">Or Sign Up with</span>
-            <div className="social-accounts">
-              <button className="social-button google" onClick={Googlesignin}>
-                <svg viewBox="0 0 488 512" height="1em">
+            <span className="title">Or Login with</span>
+            <button className="social-button google" onClick={GoogleSignUp}>
+            <svg viewBox="0 0 488 512" height="1em">
                   <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" />
                 </svg>
-              </button>
-            </div>
-          </div>
+            </button>
+          </div> 
 
-          <span className="agreement">
-            <a href=""  onClick={() => navigate("/login")} style={{ cursor: "pointer", color: "blue" }}>Already have an account? Log in</a>
-          </span>
+          {/* 🚀 Login Redirect */}
+          <p className="redirect-signup">
+            Already have an account? <a href="/login">Log in</a>
+          </p>
         </div>
       </div>
     </>

@@ -4,13 +4,18 @@ body {
     padding: 0;
     transition: background 0.3s, color 0.3s;
     background-attachment: fixed;
-    background-size: cover;
-    background: radial-gradient(
-        circle at 30% 30%,
-        rgba(255, 0, 150, 0.4),
-        transparent
-      ),
-      radial-gradient(circle at 70% 70%, rgba(0, 200, 255, 0.4), transparent);
+    background-size: cover;background: radial-gradient(
+      circle at 30% 30%,
+      rgba(100, 0, 150, 0.5), /* Dark Purple Glow */
+      transparent
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(0, 100, 200, 0.5), /* Deep Blue Glow */
+      transparent
+    ),
+    #0a0a0a; /* Black Base Background */
+  
     backdrop-filter: blur(10px);
   }
   
@@ -21,7 +26,7 @@ body {
   }
   
   .light-mode {
-    background: linear-gradient(135deg, #f7f8fc, #d4d9e3);
+    /* background: linear-gradient(135deg, #f7f8fc, #d4d9e3); */
     color: #1a1a1a;
   }
   
