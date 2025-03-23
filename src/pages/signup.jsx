@@ -39,7 +39,7 @@ const Signup = () => {
     try {
       await signInWithPopup(Auth, provider);
       toast.success("Google Sign-up Successful!", { position: "top-right" });
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       toast.error("Google Sign-up Failed", { position: "top-right" });
     }

@@ -16,7 +16,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(Auth, email, password);
       toast.success("Login Successful!", { position: "top-right" });
-      navigate("/home"); // Redirect to home after login
+      navigate("/"); // Redirect to home after login
     } catch (error) {
       toast.error("Invalid Credentials", { position: "top-right" });
     }
@@ -28,7 +28,7 @@ const Login = () => {
     try {
       await signInWithPopup(Auth, provider);
       toast.success("Google Sign-in Successful!", { position: "top-right" });
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       toast.error("Google Sign-in Failed", { position: "top-right" });
     }
