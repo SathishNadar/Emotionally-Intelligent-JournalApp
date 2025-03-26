@@ -6,19 +6,17 @@ const SpotifyCallback = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    console.log("🔍 URL Params:", urlParams.toString()); // Debug log
+  
     const accessToken = urlParams.get("access_token");
-    const refreshToken = urlParams.get("refresh_token");
     const expiresIn = urlParams.get("expires_in");
 
-    if (accessToken && refreshToken) {
+    if (accessToken) {
       localStorage.setItem("spotify_access_token", accessToken);
-      localStorage.setItem("spotify_refresh_token", refreshToken);
       localStorage.setItem("spotify_expires_in", Date.now() + expiresIn * 1000);
 
-      // Start token refresh loop
-      startTokenRefresh();
-
-      navigate("/spotify"); // Redirect after successful login
+      console.log("✅ User logged in, tokens stored.");
+      navigate("/spotify"); // Redirect the user to Spotify dashboard page
     } else {
       console.error("Missing tokens in URL");
       navigate("/dashboard");

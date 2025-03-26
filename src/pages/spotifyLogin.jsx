@@ -5,13 +5,16 @@ const SpotifyLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If user is already authenticated, send them to /spotify instead of showing login
-    if (localStorage.getItem("spotify_access_token")) {
+    const token = localStorage.getItem("spotify_access_token");
+    console.log("🔍 Stored Token:", token);
+    
+    if (token) {
       navigate("/spotify");
     }
   }, []);
 
   const handleLogin = () => {  
+    console.log("🟢 Login button clicked, redirecting to /login");
     window.location.href = "http://localhost:7777/login"; // Redirect user to Spotify login
   };
 

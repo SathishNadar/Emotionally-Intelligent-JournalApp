@@ -26,12 +26,13 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 app.get('/login', (req, res) => {
-  res.redirect(spotifyApi.createAuthorizeURL(scopes));
+  const authURL = spotifyApi.createAuthorizeURL(scopes);
+  res.redirect(authURL);
 });
 
 app.get('/callback', (req, res) => {
   const code = req.query.code;
-
+  console.log("🔹 Step 1: Received callback from Spotify. Code:", code);
   if (!code) {
     return res.status(400).send("Authorization code is missing");
   }
@@ -48,19 +49,21 @@ app.get('/callback', (req, res) => {
       console.log("Access token received:", access_token);
       console.log("Refresh token received:", refresh_token);
 
-      // Redirect to frontend with tokens as query params
-      res.redirect(`http://localhost:5173/dashboard?access_token=${access_token}&refresh_token=${refresh_token}&expires_in=${expires_in}`);
+      const redirectURL = `http://localhost:5173/callback?access_token=${encodeURIComponent(access_token)}&refresh_token=${encodeURIComponent(refresh_token)}&expires_in=${expires_in}`;
+      console.log("🔹 Redirecting to frontend with URL:", redirectURL);
+      res.redirect(redirectURL);
       
       // Automatically refresh token before expiry
-      setInterval(async () => {
+      const refreshAccessToken = async () => {
         try {
           const data = await spotifyApi.refreshAccessToken();
-          console.log("Access token refreshed:", data.body['access_token']);
+          console.log("🔄 Access token refreshed:", data.body['access_token']);
           spotifyApi.setAccessToken(data.body['access_token']);
         } catch (error) {
-          console.error("Error refreshing token:", error);
+          console.error("❌ Error refreshing token:", error);
         }
-      }, expires_in / 2 * 1000);
+      };
+      setInterval(refreshAccessToken, expires_in / 2 * 1000);
     })
     .catch(error => {
       console.error("Error getting tokens:", error);
@@ -69,6 +72,8 @@ app.get('/callback', (req, res) => {
 });
 
 app.post("/refresh_token", async (req, res) => {
+  console.log("Received refresh token request:", req.body); // Debugging log
+
   const refreshToken = req.body.refresh_token;
 
   if (!refreshToken) {
@@ -90,4 +95,4 @@ app.post("/refresh_token", async (req, res) => {
   }
 });
 
-app.listen(7777, () => console.log('HTTP Server up. Now go to http://localhost:7777/login in your browser.'));
+app.listen(7777, () => console.log('HTTP Server up. Now go to http://localhost:7777/login in your browser.'))
