@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/homepage.css";
-import { MoodTracker, Recommendations, StreakProgress } from "./features";
+import "./homepage.css";
+import { MoodTracker, Recommendations, StreakProgress } from "../Features/features";
 
 function Home() {
   const [darkMode, setDarkMode] = useState(true);

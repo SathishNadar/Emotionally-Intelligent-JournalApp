@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Login from './pages/login.jsx';
-import Signup from './pages/signup.jsx';
-import Home from './pages/home.jsx';
+import Login from './pages/Login/login.jsx';
+import Signup from './pages/Login/signup.jsx';
+import Home from './pages/Home/home.jsx';
 import SpotifyLogin from './pages/spotifyLogin.jsx';
 import Callback from './pages/spotifyCallback.jsx';
 import Dashboard from './pages/dashboard.jsx';
