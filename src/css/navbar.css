@@ -1,0 +1,45 @@
+/* Dashboard Navbar */
+.dashboard-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5%;
+  background: linear-gradient(135deg, #ff2d75, #5e00e6);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Dashboard Navbar Logo */
+.dashboard-navbar h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Navbar Buttons */
+.dashboard-navbar nav button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: white;
+  transition: transform 0.2s ease-in-out;
+  margin: 0 10px;
+}
+
+.dashboard-navbar nav button:hover {
+  transform: scale(1.1);
+}
+
+/* Profile Button */
+.dashboard-navbar .profile button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: white;
+  margin-left: 20px;
+}
+
+.dashboard-navbar .profile button:hover {
+  transform: scale(1.1);
+}
