@@ -101,13 +101,24 @@ app.post("/refresh_token", async (req, res) => {
 app.get("/me", async (req, res) => {
   try {
     const accessToken = req.cookies.spotify_access_token;
-    if (!accessToken) return res.status(401).json({ error: "Unauthorized" });
+    
+    // If no access token, redirect to login instead of failing
+    if (!accessToken) {
+      return res.status(302).json({ redirect: "/login" }); // Frontend should handle this
+    }
 
     spotifyApi.setAccessToken(accessToken);
     const response = await spotifyApi.getMe();
     res.json(response.body);
+    
   } catch (error) {
     console.error("❌ Error fetching user profile:", error);
+
+    // Handle token expiration - send user to login if token is invalid
+    if (error.statusCode === 401) {
+      return res.status(302).json({ redirect: "/login" });
+    }
+
     res.status(500).json({ error: "Failed to fetch profile" });
   }
 });
