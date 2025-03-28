@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "../css/navbar.css";
+import "./navbar.css";
 
 
 function DashboardNavbar() {
