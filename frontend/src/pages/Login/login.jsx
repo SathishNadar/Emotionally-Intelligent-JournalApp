@@ -16,7 +16,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(Auth, email, password);
       toast.success("Login Successful!", { position: "top-right" });
-      navigate("/"); // Redirect to home after login
+      navigate("/dashboard"); // Redirect to home after login
     } catch (error) {
       toast.error("Invalid Credentials", { position: "top-right" });
     }

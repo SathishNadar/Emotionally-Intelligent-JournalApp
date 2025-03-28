@@ -27,7 +27,7 @@ const Signup = () => {
         });
       }
       toast.success("Account created successfully!", { position: "top-right" });
-      navigate("/home"); // Redirect to home after signup
+      navigate("/login"); // Redirect to home after signup
     } catch (error) {
       toast.error("Error: " + error.message, { position: "top-right", autoClose: 3000 });
     }
@@ -39,7 +39,7 @@ const Signup = () => {
     try {
       await signInWithPopup(Auth, provider);
       toast.success("Google Sign-up Successful!", { position: "top-right" });
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       toast.error("Google Sign-up Failed", { position: "top-right" });
     }
