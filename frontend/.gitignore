@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-*test
+*exam
 *.env
 .qodo
