@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard/dashboard.jsx';
 import Spotify from './pages/spotify.jsx';
 import SpotifyLogin from './pages/spotifyLogin.jsx';
 import SpotifyCallback from './pages/spotifyCallback.jsx';
+import Chatbot from './pages/Chatbot/chatbot.jsx'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/spotifylogin" element={<SpotifyLogin />} /> 
         <Route path="/callback" element={<SpotifyCallback />} /> 
         <Route path="/spotify" element={<Spotify />} />
+        <Route path="/ai" element={<Chatbot/>} />
       </Routes>
     </div>
   );

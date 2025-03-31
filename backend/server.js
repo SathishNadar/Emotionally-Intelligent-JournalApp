@@ -1,9 +1,12 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import axios from "axios";
+
+import cookieParser from "cookie-parser";
 import SpotifyWebApi from "spotify-web-api-node";
+
+import chatbotAPI from "./chatbot.js"
 
 dotenv.config();
 
@@ -205,4 +208,5 @@ app.post("/api/spotify/play", async (req, res) => {
   }
 });
 
+app.use("/api",chatbotAPI);
 app.listen(7777, () => console.log("✅ Server running on http://localhost:7777"));
