@@ -24,76 +24,124 @@ const scopes = [
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: "http://localhost:5173/callback",
+  redirectUri: "http://localhost:7777/callback",
 });
 
-/** ✅ 1️⃣ LOGIN ROUTE: Redirect user to Spotify OAuth **/
+/* Redirects the user to SPOTIFY OAUTH login page along with CLIENT_ID, CLIENT_SECRET and REDIRECT_URI*/
 app.get("/login", (req, res) => {
   const authURL = spotifyApi.createAuthorizeURL(scopes);
+  console.log("🔹 Redirecting to Spotify:", authURL);
   res.redirect(authURL);
 });
 
-/** ✅ 2️⃣ CALLBACK ROUTE: Get tokens & store them securely **/
+/*the AUTH code we get from login is attached with the URL and sent to get Access_token... http://localhost:7777/callback?code=YOUR_AUTH_CODE */
 app.get("/callback", async (req, res) => {
+  const error = req.query.error;
   const code = req.query.code;
-  console.log("🔹 Step 1: Received Spotify callback. Code:", code);
-  if (!code) return res.status(400).send("Authorization code is missing");
+
+  if (error) {
+    console.error("❌ Callback Error:", error);
+    return res.status(400).send(`Callback Error: ${error}`);
+  }
 
   try {
     const data = await spotifyApi.authorizationCodeGrant(code);
-    const { access_token, refresh_token, expires_in } = data.body;
+    const accessToken = data.body["access_token"];
+    const refreshToken = data.body["refresh_token"];
+    const expiresIn = data.body["expires_in"];
 
-    // Set tokens in backend instance
-    spotifyApi.setAccessToken(access_token);
-    spotifyApi.setRefreshToken(refresh_token);
+    spotifyApi.setAccessToken(accessToken);
+    spotifyApi.setRefreshToken(refreshToken);
 
-    console.log("✅ Access Token:", access_token);
-    console.log("🔄 Refresh Token:", refresh_token);
+    console.log("✅ Access Token:", accessToken);
+    console.log("🔄 Refresh Token:", refreshToken);
+    console.log(`🎵 Token expires in ${expiresIn} seconds.`);
 
-    // Store tokens in **secure HTTP-only cookies** (instead of URL)
-    res.cookie("spotify_access_token", access_token, {
-      httpOnly: true,
-      secure: false, // Set to true in production
-      maxAge: expires_in * 1000, // Expiration time
-    });
+    // Store the tokens in a secure HTTP-only cookie (for frontend use)
+    res.cookie("spotify_access_token", accessToken, { httpOnly: true, secure: false, maxAge: expiresIn * 1000 });
+    res.cookie("spotify_refresh_token", refreshToken, { httpOnly: true, secure: false });
 
-    res.cookie("spotify_refresh_token", refresh_token, {
-      httpOnly: true,
-      secure: false,
-    });
-
-    // Redirect user to frontend dashboard (without tokens in URL)
+    // Redirect user to /spotify
     res.redirect("http://localhost:5173/spotify");
+
+    // **Automatic Token Refresh**
+    setInterval(async () => {
+      try {
+        const refreshedData = await spotifyApi.refreshAccessToken();
+        const newAccessToken = refreshedData.body["access_token"];
+        console.log("🔄 The access token has been refreshed!");
+        console.log("✅ New access token:", newAccessToken);
+        spotifyApi.setAccessToken(newAccessToken);
+      } catch (refreshError) {
+        console.error("❌ Error refreshing token:", refreshError);
+      }
+    }, expiresIn / 2 * 1000);
 
   } catch (error) {
     console.error("❌ Error getting tokens:", error);
-    res.status(500).send("Error getting tokens");
+    res.status(500).send(`Error getting tokens: ${error}`);
   }
 });
 
-/** ✅ 3️⃣ REFRESH TOKEN ROUTE: Refresh access token when expired **/
+/* /callback backend route already handles the refresh_token when expires this route helps in manual Refresh of token upon ERROR */
 app.post("/refresh_token", async (req, res) => {
   const refreshToken = req.cookies.spotify_refresh_token;
-  if (!refreshToken) return res.status(400).json({ error: "Missing refresh token" });
+  if (!refreshToken) {
+    return res.status(400).json({ error: "Missing refresh token" });
+  }
 
   try {
     spotifyApi.setRefreshToken(refreshToken);
     const data = await spotifyApi.refreshAccessToken();
-    const newAccessToken = data.body.access_token;
+    const newAccessToken = data.body["access_token"];
 
-    // Update HTTP-only cookie with new access token
+    // Update the cookie with new access token
     res.cookie("spotify_access_token", newAccessToken, {
       httpOnly: true,
       secure: false,
       maxAge: data.body.expires_in * 1000,
     });
 
-    console.log("🔄 New access token:", newAccessToken);
+    console.log("✅ Refreshed Access Token:", newAccessToken);
     res.json({ success: true });
 
   } catch (error) {
     console.error("❌ Error refreshing token:", error);
     res.status(500).json({ error: "Failed to refresh token" });
+  }
+});
+
+
+/* Helps Retrive all user scopes of the USER */
+app.get("/api/spotify-data", async (req, res) => {
+  try {
+    const accessToken = req.cookies.spotify_access_token;
+    if (!accessToken) {
+      return res.status(302).json({ redirect: "/login" });
+    }
+
+    spotifyApi.setAccessToken(accessToken);
+    
+    // Fetch user data
+    const userProfile = await spotifyApi.getMe();
+    const recentlyPlayed = await spotifyApi.getMyRecentlyPlayedTracks();
+    const topArtists = await spotifyApi.getMyTopArtists();
+    const topTracks = await spotifyApi.getMyTopTracks();
+    const savedTracks = await spotifyApi.getMySavedTracks();
+    const playlists = await spotifyApi.getUserPlaylists();
+
+    res.json({
+      user: userProfile.body,
+      recentlyPlayed: recentlyPlayed.body.items,
+      topArtists: topArtists.body.items,
+      topTracks: topTracks.body.items,
+      savedTracks: savedTracks.body.items,
+      playlists: playlists.body.items
+    });
+
+  } catch (error) {
+    console.error("❌ Error fetching Spotify data:", error);
+    res.status(500).json({ error: "Failed to fetch Spotify data" });
   }
 });
 
