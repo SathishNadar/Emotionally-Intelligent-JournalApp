@@ -10,7 +10,9 @@ const Spotify = () => {
   useEffect(() => {
     const fetchSpotifyData = async () => {
       try {
-        const response = await fetch("http://localhost:7777/api/spotify-data", { credentials: "include" });
+        const response = await fetch("http://localhost:7777/api/spotify-data", { 
+          method: "GET",
+          credentials: "include" });
 
         if (response.status === 302) {
           window.location.href = "/login"; // Redirect user to login if unauthorized

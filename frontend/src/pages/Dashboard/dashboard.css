@@ -1,75 +1,57 @@
 .dashboard-container {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    grid-template-rows: repeat(9, 1fr);
+    grid-template-rows: repeat(11, 1fr);
     gap: 10px; 
     width: 90%;
-    height: 100vh; 
+    height: 110vh; 
     padding: 20px;
     margin-left: 60px;
-    /* background-color: #121212; Dark mode */
     position: relative;
 }
 
-.dashboard-container::before {
-    content: "";
-    position: absolute;
-    top: 10px;
-    left: 60px; /* Same as padding-left */
-    width: 90%;
-    height: 100%;
-    background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
-    background-size: calc(100% / 9) calc(100% / 9); /* Matches grid */
-    pointer-events: none; /* So it doesn't interfere */
-}
-/* Streak Graph (S1) */
+
+
 .s1 {
-    grid-column: span 5;
-    grid-row: span 5;
-    background: #282828;
+    grid-column: 1/5;
+    grid-row: 1/6;
+    background: #ce4a4a;
     border-radius: 10px;
     padding: 20px;
 }
 
-/* Section S2 */
 .s2 {
-    grid-column: 4 / 10;
-    grid-row: 4 / 10;
+    grid-column: 5 / 10;
+    grid-row: 5 / 10;
     background: #1e1e1e;
     border-radius: 10px;
     padding: 20px;
 }
 
-/* Section S3 */
 .s3 {
-    grid-column: 4 / 10;
-    grid-row: 1 / 4;
+    grid-column: 5 / 10;
+    grid-row: 1 / 5;
     background: #333;
     border-radius: 10px;
     padding: 20px;
 }
 
-/* Section S4 */
 .s4 {
     grid-column: 1 / 5;
-    grid-row: 5 / 9;
-    background: #252525;
+    grid-row: 6 / 10;
+    background: #3d7b89;
     border-radius: 10px;
     padding: 20px;
 }
 
-/* Section S5 */
 .s5 {
-    grid-column: 1 / 11;
-    grid-row: 9 / 11;
+    grid-column: 1 / 10;
+    grid-row: 10 / -1;
     background: #191919;
     border-radius: 10px;
     padding: 20px;
 }
 
-/* Styling for all sections */
 .s1, .s2, .s3, .s4, .s5 {
     color: white;
     display: flex;
@@ -78,4 +60,35 @@
     font-size: 18px;
     font-weight: bold;
     text-align: center;
+    border-radius: 10px;
+    padding: 20px;
+    
+    /* Initial state for animation */
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+.s1 { animation-delay: 0.2s; }
+.s2 { animation-delay: 0.4s; }
+.s3 { animation-delay: 0.6s; }
+.s4 { animation-delay: 0.8s; }
+.s5 { animation-delay: 1s; }
+
+/* Subtle hover effect */
+.s1:hover, .s2:hover, .s3:hover, .s4:hover, .s5:hover {
+    transform: translateY(-1px) scale(1.01) !important; /* Gentle lift */
+    box-shadow: 0px 10px 20px rgba(255, 255, 255, 0.15); /* Soft glow */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }

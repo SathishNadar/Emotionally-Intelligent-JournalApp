@@ -22,8 +22,10 @@ const scopes = [
 ];
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  // clientId: process.env.SPOTIFY_CLIENT_ID,
+  clientId: "02b1b7cde28f4f32849dd0d6d8fa3cd2",
+  // clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  clientSecret: "ab497121fd014e0ab01009fa6a355885",
   redirectUri: "http://localhost:7777/callback",
 });
 
@@ -43,13 +45,14 @@ app.get("/callback", async (req, res) => {
     console.error("❌ Callback Error:", error);
     return res.status(400).send(`Callback Error: ${error}`);
   }
-
+  
   try {
     const data = await spotifyApi.authorizationCodeGrant(code);
+    
     const accessToken = data.body["access_token"];
     const refreshToken = data.body["refresh_token"];
     const expiresIn = data.body["expires_in"];
-
+    
     spotifyApi.setAccessToken(accessToken);
     spotifyApi.setRefreshToken(refreshToken);
 
