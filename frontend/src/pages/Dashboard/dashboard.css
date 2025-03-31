@@ -13,9 +13,11 @@
 .s1 {
     grid-column: 1/5;
     grid-row: 1/6;
-    background: #ce4a4a;
+    background: #313030;
     border-radius: 10px;
     padding: 20px;
+    position: relative;
+    /* overflow-y: auto; */
 }
 
 .s2 {
@@ -58,8 +60,7 @@
     font-size: 18px;
     font-weight: bold;
     text-align: center;
-    border-radius: 10px;
-    padding: 20px;
+    border-radius: 10px;    
     
     /* Initial state for animation */
     opacity: 0;
