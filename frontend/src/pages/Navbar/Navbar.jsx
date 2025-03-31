@@ -18,6 +18,12 @@ function DashboardNavbar() {
         >
         🎵 Spotify
       </button>
+        <button
+        onClick={() => navigate("/ai")}
+        style={{ margin: "10px", padding: "10px 20px", fontSize: "16px" }}
+        >
+        🤖AI
+      </button>
       </nav>
       <div className="profile">
         <button onClick={() => navigate("/profile")}>Profile</button>
