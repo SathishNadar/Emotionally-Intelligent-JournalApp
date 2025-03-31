@@ -18,7 +18,10 @@ const scopes = [
   "user-top-read",
   "user-read-recently-played",
   "user-library-read",
-  "playlist-read-private"
+  "playlist-read-private",
+  "user-read-playback-state", 
+  "user-modify-playback-state", 
+  "streaming"
 ];
 
 const spotifyApi = new SpotifyWebApi({
@@ -171,6 +174,34 @@ app.get("/me", async (req, res) => {
     }
 
     res.status(500).json({ error: "Failed to fetch profile" });
+  }
+});
+
+app.post("/api/spotify/play", async (req, res) => {
+  try {
+    const accessToken = req.cookies.spotify_access_token;
+    if (!accessToken) {
+      return res.status(401).json({ error: "Unauthorized. Please log in." });
+    }
+
+    const { device_id } = req.body;
+    if (!device_id) {
+      return res.status(400).json({ error: "Device ID is required" });
+    }
+
+    spotifyApi.setAccessToken(accessToken);
+    
+    await axios.put(
+      "https://api.spotify.com/v1/me/player",
+      { device_ids: [device_id], play: true },
+      { headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" } }
+    );
+
+    res.json({ success: true, message: "Playback started" });
+
+  } catch (error) {
+    console.error("❌ Error starting playback:", error);
+    res.status(500).json({ error: "Failed to start playback" });
   }
 });
 
