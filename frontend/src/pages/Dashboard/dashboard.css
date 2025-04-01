@@ -26,6 +26,12 @@
     background: #1e1e1e;
     border-radius: 10px;
     padding: 20px;
+    position: relative;
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .s3 {
