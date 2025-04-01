@@ -17,12 +17,12 @@ const Streak = () => {
         "2025-03-05": false,
         "2025-03-06": false,
         "2025-03-07": true,
-        "2025-03-08": true,
+        "2025-04-08": true,
     };
 
     // Function to calculate longest and current streak
     const calculateStreaks = () => {
-        let longest = 0, current = 0, maxStreak = 0;
+        let current = 0, maxStreak = 0;
         for (let i = 1; i <= daysInMonth; i++) {
             let dateKey = `${year}-03-${i.toString().padStart(2, "0")}`;
             if (streakData[dateKey]) {
