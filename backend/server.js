@@ -15,6 +15,8 @@ app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Allow frontend requests with credentials
 app.use(cookieParser());
 
+app.use("/api",chatbotAPI);
+
 const scopes = [
   "user-read-private",
   "user-read-email",
@@ -208,5 +210,5 @@ app.post("/api/spotify/play", async (req, res) => {
   }
 });
 
-app.use("/api",chatbotAPI);
+
 app.listen(7777, () => console.log("✅ Server running on http://localhost:7777"));

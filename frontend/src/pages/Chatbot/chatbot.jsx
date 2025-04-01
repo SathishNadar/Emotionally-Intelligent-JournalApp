@@ -6,21 +6,45 @@ const Chatbot = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return; // Prevent multiple clicks
 
     const newMessages = [...messages, { text: input, sender: "user" }];
     setMessages(newMessages);
+    setIsLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:7777/api/chat", { query: input });
-      setMessages([...newMessages, { text: res.data.response, sender: "ai" }]);
+      const res = await fetch("http://localhost:7777/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: input }),
+      });
+
+      if (!res.body) throw new Error("No response body");
+
+      const reader = res.body.getReader();
+      let decoder = new TextDecoder();
+      let botMessage = { text: "", sender: "ai" };
+      let updatedMessages = [...newMessages, botMessage];
+
+      setMessages(updatedMessages);
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        botMessage.text += decoder.decode(value, { stream: true });
+        setMessages([...updatedMessages]);
+      }
     } catch (error) {
       console.error("Error fetching response:", error);
+      setMessages([...newMessages, { text: "Error getting response. Try again.", sender: "ai" }]);
+    } finally {
+      setIsLoading(false);
     }
 
-    setInput(""); // Clear input field
+    setInput("");
   };
 
   return (
@@ -52,7 +76,9 @@ const Chatbot = () => {
             placeholder="Type a message..."
             className="message-input"
           />
-          <button onClick={sendMessage} className="send-button">Send</button>
+          <button onClick={sendMessage} className="send-button" disabled={isLoading}>
+            {isLoading ? "Loading..." : "Send"}
+          </button>
         </div>
       </div>
     </div>
