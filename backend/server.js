@@ -12,7 +12,14 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Allow frontend requests with credentials
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Set frontend origin explicitly
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow necessary headers
+    methods: ["GET", "POST", "PUT", "DELETE"], // Explicitly allow these methods
+  })
+);
 app.use(cookieParser());
 
 app.use("/api",chatbotAPI);
@@ -30,10 +37,8 @@ const scopes = [
 ];
 
 const spotifyApi = new SpotifyWebApi({
-  // clientId: process.env.SPOTIFY_CLIENT_ID,
-  clientId: "02b1b7cde28f4f32849dd0d6d8fa3cd2",
-  // clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  clientSecret: "ab497121fd014e0ab01009fa6a355885",
+  clientId: process.env.SPOTIFY_CLIENT_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   redirectUri: "http://localhost:7777/callback",
 });
 
@@ -140,6 +145,9 @@ app.get("/api/spotify-data", async (req, res) => {
     const topTracks = await spotifyApi.getMyTopTracks();
     const savedTracks = await spotifyApi.getMySavedTracks();
     const playlists = await spotifyApi.getUserPlaylists();
+
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
 
     res.json({
       user: userProfile.body,
