@@ -138,15 +138,7 @@ body {
    .about:hover, .how-it-works:hover, .benefits:hover {
     transform: scale(1.02);
   }
-  
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 7px;
-    background: linear-gradient(135deg, #ff2d75, #5e00e6);
-    color: white;
-    font-weight: bold;
-  }
+
   
   .animated-text {
     font-size: 32px;

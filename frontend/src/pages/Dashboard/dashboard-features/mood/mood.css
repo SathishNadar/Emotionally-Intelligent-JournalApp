@@ -1,3 +1,8 @@
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .mood-insights-container {
   width: 100%;
   padding: 20px;
@@ -34,7 +39,8 @@
   border-radius: 10px;
   color: #ccc;
   font-size: 12px; /* Smaller font size */
-}
+  font-family: sans-serif;
+  }
 
 .emotion-stats h3 {
   font-size: 16px; /* Smaller heading */

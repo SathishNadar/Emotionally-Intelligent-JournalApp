@@ -3,7 +3,7 @@ import DashboardNavbar from "../Navbar/Navbar";
 import "./dashboard.css";
 import Streak from "./dashboard-features/streak/streak";
 import MoodTracker from "./dashboard-features/mood/moodtracker";
-
+import Footers from "../footer/footers";
 const Dashboard = () => {
   const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ const Dashboard = () => {
       <div className="s4">Section 4</div>
       <div className="s5">Section 5</div>
     </div>
+    <Footers/>
     </>
   );
 };

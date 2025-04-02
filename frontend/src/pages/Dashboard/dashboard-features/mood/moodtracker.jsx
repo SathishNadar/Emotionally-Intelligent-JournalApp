@@ -96,7 +96,7 @@ const EmotionRadarChart = () => {
               />
               <PolarRadiusAxis 
                 angle={30} 
-                domain={[0, maxValue+1]} 
+                domain={[0, maxValue+1  ]} 
                 tick={false} // Hide ticks
                 axisLine={false} // Remove the axis line
                 stroke="#fff" // White radius axis line

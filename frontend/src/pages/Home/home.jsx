@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./homepage.css";
 import { MoodTracker, Recommendations, StreakProgress } from "../Features/features";
+import Footers from "../footer/footers";
 
 function Home() {
   const [darkMode, setDarkMode] = useState(true);
@@ -127,9 +128,7 @@ function Home() {
       </main>
 
       {/* Footer */}
-      <footer>
-        <p>&copy; 2025 AI Diary. All rights reserved.</p>
-      </footer>
+      <Footers/>
     </div>
   );
 }
