@@ -14,6 +14,7 @@ function App() {
     <div>
       <Routes>
         <Route exact path="/" element={<Dashboard />} /> // badlna hai baadme 
+        <Route exact path="/home" element={<Home />} /> // badlna hai baadme 
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />

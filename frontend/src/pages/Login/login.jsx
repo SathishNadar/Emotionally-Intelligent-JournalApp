@@ -10,6 +10,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+
+
   // 🔐 Email & Password Login Function
   const LoginRequest = async (e) => {
     e.preventDefault();
@@ -26,7 +28,8 @@ const Login = () => {
   const GoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(Auth, provider);
+      var user = await signInWithPopup(Auth, provider);
+      
       toast.success("Google Sign-in Successful!", { position: "top-right" });
       navigate("/");
     } catch (error) {

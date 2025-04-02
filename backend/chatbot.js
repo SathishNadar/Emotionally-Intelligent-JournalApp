@@ -14,12 +14,19 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 app.post("/chat", async (req, res) => {
   const userQuery = req.body.query.toLowerCase();
 
-  let systemInstruction = "You are a friendly and engaging chatbot. Have casual conversations with the user, ask questions, and interact naturally.";
+  let systemInstruction =
+    "You are a friendly and engaging chatbot. Have casual conversations with the user, ask questions, and interact naturally.";
 
   // Check if the user is requesting tone adjustments
-  if (userQuery.includes("proofread this") || userQuery.includes("make it") && 
-      (userQuery.includes("friendly") || userQuery.includes("concise") || userQuery.includes("professional"))) {
-    systemInstruction = "You are an AI chatbot specialized in proofreading text. Your task is to correct the tone of the given input text to be Friendly, Professional, or Concise.";
+  if (
+    userQuery.includes("proofread this") ||
+    (userQuery.includes("make it") &&
+      (userQuery.includes("friendly") ||
+        userQuery.includes("concise") ||
+        userQuery.includes("professional")))
+  ) {
+    systemInstruction =
+      "You are an AI chatbot specialized in proofreading text. Your task is to correct the tone of the given input text to be Friendly, Professional, or Concise.";
   }
 
   try {

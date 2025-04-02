@@ -1,79 +1,132 @@
-import React, { useState, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import React from "react";
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 import "./mood.css";
 
-const moodData = [
-    { date: "Mar 18", mood: 1 },
-    { date: "Mar 19", mood: 2 },
-    { date: "Mar 20", mood: 3 },
-    { date: "Mar 21", mood: 1 },
-    { date: "Mar 22", mood: 2 },
-    { date: "Mar 23", mood: 3 },
-    { date: "Mar 24", mood: 2 },
-    { date: "Mar 25", mood: 1 },
-    { date: "Mar 26", mood: 3 },
-    { date: "Mar 27", mood: 2 },
-    { date: "Mar 28", mood: 1 },
-    { date: "Mar 29", mood: 3 },
-    { date: "Mar 30", mood: 2 },
-    { date: "Mar 31", mood: 1 },
-    { date: "Apr 1", mood: 3 }
-  ];
-  
+// Sample mood data for last 15 days
+const moodDataPerDay = {
+  "Mar 1": "Joy",
+  "Mar 2": "Sadness",
+  "Mar 3": "Joy",
+  "Mar 4": "Neutral",
+  "Mar 5": "Joy",
+  "Mar 6": "Fear",
+  "Mar 7": "Anger",
+  "Mar 8": "Neutral",
+  "Mar 9": "Sadness",
+  "Mar 10": "Joy",
+  "Mar 11": "Fear",
+  "Mar 12": "Joy",
+  "Mar 13": "Neutral",
+  "Mar 14": "Surprise",
+  "Mar 15": "Disgust"
+};
 
-const MoodTracker = () => {
-  const [showLine, setShowLine] = useState(false);
+// Emotion types
+const emotions = [
+  "Anger",
+  "Disgust",
+  "Fear",
+  "Joy",
+  "Neutral",
+  "Sadness",
+  "Surprise"
+];
 
-  useEffect(() => {
-    setShowLine(false);
-    setTimeout(() => {
-      setShowLine(true); // Start the line animation
-    }, 1200);
-  }, []);
+// Calculate the total count and average for each emotion
+const calculateEmotionData = (moodData) => {
+  const emotionCounts = emotions.reduce((acc, emotion) => {
+    acc[emotion] = 0;
+    return acc;
+  }, {});
 
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      const moodValue = payload[0].value;
-      const moodText = moodValue === 1 ? "Sad 😢" : moodValue === 2 ? "Neutral 😐" : "Happy 😊";
-      return (
-        <div className="custom-tooltip">
-          <p>{moodText}</p>
-        </div>
-      );
+  // Count each emotion occurrence
+  for (let date in moodData) {
+    const mood = moodData[date];
+    if (emotionCounts[mood] !== undefined) {
+      emotionCounts[mood]++;
     }
-    return null;
-  };
+  }
+
+  // Calculate average for the radar chart (divide count by total days)
+  const avgEmotionData = emotions.map((emotion) => {
+    const count = emotionCounts[emotion];
+    return {
+      emotion: emotion,
+      value: count // Total count for each emotion
+    };
+  });
+
+  return avgEmotionData;
+};
+
+const EmotionRadarChart = () => {
+  const avgMoodData = calculateEmotionData(moodDataPerDay);
+
+  // Sort the emotions in descending order based on the count (value)
+  const sortedAvgMoodData = avgMoodData.sort((a, b) => b.value - a.value);
+
+  // Get the maximum value from the data to adjust the radius axis
+  const maxValue = Math.max(...sortedAvgMoodData.map((data) => data.value));
 
   return (
-    <div className="mood-tracker-container">
-      <h3 className="mood-tracker-title">Mood Insights (Recent 15 Days)</h3>
-      <ResponsiveContainer width="100%" height={220}>
-        <LineChart data={moodData} margin={{ top: 10, right: 20, bottom: 20, left: 20 }}>
-          <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.2} />
-          <XAxis dataKey="date" tick={{ fill: "#ccc", fontSize: 12 }} />
-          <YAxis
-            tickFormatter={(tick) => (tick === 1 ? "😢" : tick === 2 ? "😐" : "😊")}
-            domain={[1, 3]}
-            ticks={[1, 2, 3]}
-            tick={{ fontSize: 16 }}
-          />
-          <Tooltip content={<CustomTooltip />} />
+    <div className="mood-insights-container">
+      <h2 className="mood-insights-title">Mood Insights (Last 15 Days)</h2>
+      <div className="mood-insights-content">
+        {/* Radar Chart Section */}
+        <div className="radar-left">
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart cx="50%" cy="50%" outerRadius="70%" data={sortedAvgMoodData}>
+              <PolarGrid 
+                stroke="#4e4e4e" // Darker grid lines
+                strokeWidth={0.4} 
+              />
+              <PolarAngleAxis 
+                dataKey="emotion" 
+                tickLine={false} // Remove ticks
+                stroke="#fff" // White axis labels
+                fontSize={12} // Smaller font for labels
+              />
+              <PolarRadiusAxis 
+                angle={30} 
+                domain={[0, maxValue+1]} 
+                tick={false} // Hide ticks
+                axisLine={false} // Remove the axis line
+                stroke="#fff" // White radius axis line
+              />
+              <Radar
+                name="Emotions"
+                dataKey="value"
+                stroke="#e74c3c" // Red stroke for the radar line
+                fill="#e74c3c"  // Same red for the fill
+                fillOpacity={0.5}  // More transparency for sleek design
+                strokeWidth={3}    // Thicker line for emphasis
+              />
+              <Tooltip />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
 
-          {/* Animated Line */}
-          {showLine && (
-            <Line
-              type="monotone"
-              dataKey="mood"
-              stroke="#6c5ce7"
-              strokeWidth={3}
-              isAnimationActive={true}
-              animationDuration={1500}
-            />
-          )}
-        </LineChart>
-      </ResponsiveContainer>
+        {/* Emotional Stats List */}
+        <div className="emotion-stats">
+          <h3>Emotional Stats</h3>
+          {sortedAvgMoodData.map((data) => (
+            <div key={data.emotion} className="emotion-item">
+              <span>{data.emotion}</span>
+              <span>{data.value} days</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default MoodTracker;
+export default EmotionRadarChart;
