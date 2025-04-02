@@ -35,92 +35,92 @@ const Spotify = () => {
     fetchSpotifyData();
   }, [navigate]);
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://sdk.scdn.co/spotify-player.js";
-    script.async = true;
-    script.onload = () => {
-      if (window.onSpotifyWebPlaybackSDKReady) {
-        window.onSpotifyWebPlaybackSDKReady();
-      }
-    };
-    document.head.appendChild(script);
-  }, []);
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+  //   script.src = "https://sdk.scdn.co/spotify-player.js";
+  //   script.async = true;
+  //   script.onload = () => {
+  //     if (window.onSpotifyWebPlaybackSDKReady) {
+  //       window.onSpotifyWebPlaybackSDKReady();
+  //     }
+  //   };
+  //   document.head.appendChild(script);
+  // }, []);
 
   // Initialize Spotify Web Playback SDK
-  useEffect(() => {
-    if (!spotifyData) return;
+  // useEffect(() => {
+  //   if (!spotifyData) return;
 
-    window.onSpotifyWebPlaybackSDKReady = () => {
-      const token = spotifyData?.accessToken;
-      if (!token) {
-        console.error("⚠️ No access token available!");
-        return;
-      }
+  //   window.onSpotifyWebPlaybackSDKReady = () => {
+  //     const token = spotifyData?.accessToken;
+  //     if (!token) {
+  //       console.error("⚠️ No access token available!");
+  //       return;
+  //     }
 
-      const newPlayer = new window.Spotify.Player({
-        name: "Web Player",
-        getOAuthToken: cb => { cb(token); },
-        volume: 0.5
-      });
+  //     const newPlayer = new window.Spotify.Player({
+  //       name: "Web Player",
+  //       getOAuthToken: cb => { cb(token); },
+  //       volume: 0.5
+  //     });
 
-      newPlayer.addListener("ready", async ({ device_id }) => {
-        console.log("✅ Ready with Device ID", device_id);
-        setDeviceId(device_id);
-        setPlayer(newPlayer);
-        await startPlayback(device_id);
-      });
+  //     newPlayer.addListener("ready", async ({ device_id }) => {
+  //       console.log("✅ Ready with Device ID", device_id);
+  //       setDeviceId(device_id);
+  //       setPlayer(newPlayer);
+  //       await startPlayback(device_id);
+  //     });
 
-      newPlayer.addListener("player_state_changed", (state) => {
-        if (!state) return;
-        document.getElementById("togglePlay").onclick = function () {
-          newPlayer.togglePlay();
-        };
-      });
+  //     newPlayer.addListener("player_state_changed", (state) => {
+  //       if (!state) return;
+  //       document.getElementById("togglePlay").onclick = function () {
+  //         newPlayer.togglePlay();
+  //       };
+  //     });
 
-      newPlayer.addListener("not_ready", ({ device_id }) => {
-        console.log("❌ Device ID has gone offline", device_id);
-      });
+  //     newPlayer.addListener("not_ready", ({ device_id }) => {
+  //       console.log("❌ Device ID has gone offline", device_id);
+  //     });
 
-      newPlayer.connect();
-    };
-  }, [spotifyData]);
+  //     newPlayer.connect();
+  //   };
+  // }, [spotifyData]);
 
-  const handleNextTrack = () => {
-    if (player) {
-      player.nextTrack().then(() => {
-        console.log("⏭️ Skipped to next track!");
-      });
-    }
-  };
+  // const handleNextTrack = () => {
+  //   if (player) {
+  //     player.nextTrack().then(() => {
+  //       console.log("⏭️ Skipped to next track!");
+  //     });
+  //   }
+  // };
 
-  const handlePreviousTrack = () => {
-    if (player) {
-      player.previousTrack().then(() => {
-        console.log("⏮️ Set to previous track!");
-      });
-    }
-  };
+  // const handlePreviousTrack = () => {
+  //   if (player) {
+  //     player.previousTrack().then(() => {
+  //       console.log("⏮️ Set to previous track!");
+  //     });
+  //   }
+  // };
 
-  async function startPlayback(device_id) {
-    try {
-      const response = await fetch("http://localhost:7777/api/spotify/play", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ device_id }),
-      });
+  // async function startPlayback(device_id) {
+  //   try {
+  //     const response = await fetch("http://localhost:7777/api/spotify/play", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       credentials: "include",
+  //       body: JSON.stringify({ device_id }),
+  //     });
 
-      const data = await response.json();
-      if (data.success) {
-        console.log("✅ Playback started successfully!");
-      } else {
-        console.error("❌ Error:", data.error);
-      }
-    } catch (error) {
-      console.error("❌ Network error:", error);
-    }
-  }
+  //     const data = await response.json();
+  //     if (data.success) {
+  //       console.log("✅ Playback started successfully!");
+  //     } else {
+  //       console.error("❌ Error:", data.error);
+  //     }
+  //   } catch (error) {
+  //     console.error("❌ Network error:", error);
+  //   }
+  // }
 
   return (
     <div>
@@ -166,12 +166,12 @@ const Spotify = () => {
             ))}
           </ul>
 
-          {/* Spotify Web Player */}
+          {/* Spotify Web Player
           <div id="spotify-player">
           <button id="togglePlay">Toggle Play</button>
           <button onClick={handlePreviousTrack}>⏮️ Previous</button>
           <button onClick={handleNextTrack}>⏭️ Next</button>
-          </div>
+          </div> */}
         </div>
       ) : (
         <h1>Loading...</h1>
