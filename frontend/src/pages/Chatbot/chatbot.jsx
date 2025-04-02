@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./chatbot.css";
+import DashboardNavbar from "../Navbar/Navbar";
 
 const Chatbot = () => {
   const [input, setInput] = useState("");
@@ -48,6 +49,8 @@ const Chatbot = () => {
   };
 
   return (
+    <>
+    <DashboardNavbar/>
     <div className="chat-container">
       <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
         BUTTON
@@ -82,6 +85,7 @@ const Chatbot = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
