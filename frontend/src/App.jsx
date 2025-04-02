@@ -8,6 +8,9 @@ import Spotify from './pages/spotify.jsx';
 import SpotifyLogin from './pages/spotifyLogin.jsx';
 import SpotifyCallback from './pages/spotifyCallback.jsx';
 import Chatbot from './pages/Chatbot/chatbot.jsx'
+import Diary from './pages/Diary/diary.jsx';
+import "./index.css";
+
 
 function App() {
   return (
@@ -22,6 +25,7 @@ function App() {
         <Route path="/callback" element={<SpotifyCallback />} /> 
         <Route path="/spotify" element={<Spotify />} />
         <Route path="/ai" element={<Chatbot/>} />
+        <Route path="/diary" element={<Diary/>} />
       </Routes>
     </div>
   );
