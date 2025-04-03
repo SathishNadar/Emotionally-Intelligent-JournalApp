@@ -1,51 +1,141 @@
-/* Main AI Diary Container */
+/* Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Blocks horizontal scrolling */
+}
+
+/* Main Diary Container */
 .diary-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end; /* Align input at the bottom */
-    height: 100vh;
-    width: 100vw;
-    background: #1e1e1e;
-    padding: 20px;
-  }
-  
-  /* Chat Area */
-  .diary-chat {
-    width: 40vw;
-    height: calc(100vh - 15vh); /* Adjust height dynamically */
-    background: #292929; /* Slightly different shade */
-    border-radius: 10px;
-    padding: 15px;
-    overflow-y: auto;
-    color: white;
-    font-family: sans-serif;
-    font-size: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  /* User Input */
-  .diary-input {
-    width: 40vw;
-    height: 10vh;
-    background: #333;
-    border: none;
-    border-radius: 10px;
-    padding: 10px;
-    font-size: 16px;
-    color: white;
-    outline: none;
-    resize: none;
-  }
-  
-  /* Chat Message */
-  .diary-message {
-    background: #444;
-    padding: 8px 12px;
-    border-radius: 8px;
-    max-width: 90%;
-    word-wrap: break-word;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Default center alignment */
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(circle at center, #0a0f1a, #04050a);
+  padding: 20px;
+  transition: background 1s ease-in-out;
+  overflow: hidden; /* Prevents unwanted scrolling */
+}
+
+/* When messages exist, input moves down */
+.diary-container.has-messages {
+  justify-content: flex-end;
+}
+
+/* Chat Area - Fully Transparent */
+.diary-chat {
+  width: 50vw;
+  height: calc(100vh - 22vh);
+  padding: 15px;
+  overflow-y: auto;
+  color: white;
+  font-family: sans-serif;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: transparent;
+}
+
+/* Prevent messages from overflowing */
+.diary-chat::-webkit-scrollbar {
+  width: 8px;
+}
+
+.diary-chat::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+
+.diary-chat::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Chat Messages */
+.diary-message {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 10px 14px;
+  border-radius: 10px;
+  max-width: 90%;
+  align-self: flex-start; /* Default: messages on the left */
+}
+
+/* User's messages should be aligned to the right */
+.diary-message.user {
+  align-self: flex-end;
+  background: rgba(255, 0, 128, 0.56); /* Slightly different for user messages */
+  text-align: right;
+  border-radius: 50px;
+}
+
+/* Input Container - Glassmorphic Effect */
+.diary-input-container {
+  display: flex;
+  align-items: center;
+  width: 50vw;
+  height: 12vh;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px;
+  backdrop-filter: blur(12px);
+  transition: transform 0.8s ease-in-out;
+  overflow: hidden;
+}
+
+/* Input Positioned in the Middle Initially */
+.diary-container:not(.has-messages) .diary-input-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Input Moves Down When Chat Appears */
+.input-moved {
+  position: relative;
+  transform: translateY(-8%);
+}
+
+/* Input Field */
+.diary-input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  padding: 15px;
+  font-size: 18px;
+  color: white;
+  outline: none;
+  resize: none;
+  font-family: "Inter", sans-serif;
+  overflow: hidden;
+}
+
+/* Placeholder Styling */
+.diary-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+}
+
+/* Send Button */
+.diary-send-btn {
+  background: none;
+  border: none;
+  color: #ff007f;
+  font-size: 22px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  margin-left: 12px;
+}
+
+.diary-send-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Prevent input text overflow */
+.diary-input::-webkit-scrollbar {
+  display: none;
+}

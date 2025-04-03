@@ -24,22 +24,19 @@ const MiniDiary = () => {
       const bubble = document.createElement("div");
       bubble.classList.add("bubble");
 
-      // Randomize position and size
-      const size = Math.random() * 40 + 10; // Between 10px and 50px
+      const size = Math.random() * 40 + 10; 
       bubble.style.width = `${size}px`;
       bubble.style.height = `${size}px`;
-      bubble.style.left = `${Math.random() * 100}vw`; // Random X position
-      bubble.style.animationDuration = `${Math.random() * 3 + 4}s`; // Random speed between 4-7s
+      bubble.style.left = `${Math.random() * 100}vw`; 
+      bubble.style.animationDuration = `${Math.random() * 3 + 4}s`; 
 
       bubbleContainer.appendChild(bubble);
 
-      // Remove bubble when animation ends
       setTimeout(() => {
         bubble.remove();
-      }, 7000); // Match max animation duration
+      }, 7000); 
     };
 
-    // Generate new bubbles every 300ms
     const interval = setInterval(createBubble, 300);
 
     return () => clearInterval(interval);
