@@ -6,18 +6,6 @@ const MiniDiary = () => {
   const [entry, setEntry] = useState("");
   const navigate = useNavigate();
 
-  // Simulate fetching a past entry
-  const pastEntries = [
-    "Today felt a little overwhelming, but I managed to push through.",
-    "The sunset was really beautiful today, made me feel at peace.",
-    "Felt a bit off today, not sure why. Hoping for a better tomorrow.",
-  ];
-  const [pastEntry, setPastEntry] = useState("");
-
-  useEffect(() => {
-    setPastEntry(pastEntries[Math.floor(Math.random() * pastEntries.length)]);
-  }, []);
-
   const handleSubmit = () => {
     if (entry.trim() !== "") {
       sessionStorage.setItem("draftEntry", entry);
@@ -25,29 +13,59 @@ const MiniDiary = () => {
     }
   };
 
+  const handleTryDiary = () => {
+    navigate("/diary");
+  };
+
+  useEffect(() => {
+    const bubbleContainer = document.querySelector(".bubble-container");
+
+    const createBubble = () => {
+      const bubble = document.createElement("div");
+      bubble.classList.add("bubble");
+
+      // Randomize position and size
+      const size = Math.random() * 40 + 10; // Between 10px and 50px
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+      bubble.style.left = `${Math.random() * 100}vw`; // Random X position
+      bubble.style.animationDuration = `${Math.random() * 3 + 4}s`; // Random speed between 4-7s
+
+      bubbleContainer.appendChild(bubble);
+
+      // Remove bubble when animation ends
+      setTimeout(() => {
+        bubble.remove();
+      }, 7000); // Match max animation duration
+    };
+
+    // Generate new bubbles every 300ms
+    const interval = setInterval(createBubble, 300);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="mini-diary-container">
-      <h2 className="mini-diary-title">Your Recent Thoughts</h2>
-      
-      {/* Past entry preview */}
-      <div className="mini-diary-preview">
-        <div className="mini-diary-avatar">📝</div>
-        <div className="mini-diary-entry">
-          <span className="mini-diary-timestamp">Yesterday</span>
-          <p className="mini-diary-text">{pastEntry}</p>
-        </div>
-      </div>
+      {/* Floating bubbles container */}
+      <div className="bubble-container"></div>
 
-      {/* Input Box */}
+      <h2 className="mini-diary-title">Your Thoughts</h2>
       <textarea
         className="mini-diary-textarea"
-        placeholder="Write something..."
+        placeholder= "Write Your Thoughts..."
         value={entry}
         onChange={(e) => setEntry(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
       />
 
-      <button className="mini-diary-button" onClick={handleSubmit}>Send</button>
+      <div className="button-container">
+        <button className="mini-diary-button" onClick={handleSubmit}>
+          Send
+        </button>
+        <button className="mini-diary-button" onClick={handleTryDiary}>
+          Try Diary
+        </button>
+      </div>
     </div>
   );
 };

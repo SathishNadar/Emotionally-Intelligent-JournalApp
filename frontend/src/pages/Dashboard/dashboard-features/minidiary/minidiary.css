@@ -1,77 +1,131 @@
 .mini-diary-container {
+  position: relative;
   width: 100%;
+  height: 90%;
   padding: 20px;
-  background: #2a2a2a;
+  background: linear-gradient(-45deg, #2a2a2a, #333, #2a2a2a);
+  background-size: 400% 400%;
   border-radius: 15px;
   color: white;
-  font-family: "Poppins", sans-serif;
-  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: gradientShift 12s ease infinite;
 }
 
+/* Background Gradient Animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Floating Bubbles */
+.bubble-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bubble {
+  position: absolute;
+  background: rgba(255, 248, 248, 0.896);
+  border-radius: 50%;
+  opacity: 0.7;
+  filter: blur(5px);
+  animation: floatUp linear infinite;
+  pointer-events: none;
+}
+
+/* Floating Up Animation */
+@keyframes floatUp {
+  from {
+    transform: translateY(100vh) scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: translateY(-10vh) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Title */
 .mini-diary-title {
-  font-size: 18px;
+  font-size: 22px;
   margin-bottom: 15px;
   color: #f39c12;
 }
 
-/* Past Entry Preview */
-.mini-diary-preview {
-  display: flex;
-  align-items: flex-start;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-}
-
-.mini-diary-avatar {
-  font-size: 24px;
-  margin-right: 10px;
-}
-
-.mini-diary-entry {
-  text-align: left;
-  flex: 1;
-}
-
-.mini-diary-timestamp {
-  font-size: 12px;
-  color: #bbb;
-}
-
-.mini-diary-text {
-  font-size: 14px;
-  color: #ddd;
-  margin-top: 5px;
-}
-
 /* Input Box */
 .mini-diary-textarea {
-  width: 100%;
-  height: 80px;
+  overflow: hidden;
+  width: 90%;
+  height: 270px;
   background: #333;
-  border: none;
+  border: 2px solid transparent;
   border-radius: 10px;
   padding: 10px;
-  font-size: 14px;
+  font-size: 16px;
   color: white;
   outline: none;
   resize: none;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Glowing border animation on focus */
+.mini-diary-textarea:focus {
+  border-width: 3px;
+  border-style: solid;
+  border-image: linear-gradient(90deg, #8a2be2, #1e90ff) 1;
+  animation: moving-border 1.2s infinite linear;
+}
+
+/* More Vibrant Moving Border Animation */
+@keyframes moving-border {
+  0% {
+    border-image-source: linear-gradient(90deg, #ab07f1, #3498db);
+    border-image-slice: 1;
+  }
+  50% {
+    border-image-source: linear-gradient(180deg, #8a2be2, #1e90ff);
+    border-image-slice: 1;
+  }
+  100% {
+    border-image-source: linear-gradient(270deg, #ab07f1, #3498db);
+    border-image-slice: 1;
+  }
+}
 /* Send Button */
 .mini-diary-button {
   margin-top: 10px;
-  padding: 8px 15px;
+  padding: 10px 20px;
   background: #f39c12;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   color: white;
   transition: background 0.3s ease;
 }
 
 .mini-diary-button:hover {
   background: #e67e22;
+}
+
+.button-container{
+  display: flex;
+  gap: 20px;
 }

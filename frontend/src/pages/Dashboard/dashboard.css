@@ -22,10 +22,15 @@
 .s2 {
     grid-column: 5 / 10;
     grid-row: 5 / 10;
+    position: relative;
     background: #1e1e1e;
     border-radius: 10px;
     padding: 20px;
-}
+    overflow: hidden; /* Keeps everything inside */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
 .s3 {
     grid-column: 5 / 10;
