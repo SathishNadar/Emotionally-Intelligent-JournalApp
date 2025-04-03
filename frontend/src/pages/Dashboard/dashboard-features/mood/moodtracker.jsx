@@ -70,10 +70,8 @@ const calculateEmotionData = (moodData) => {
 const EmotionRadarChart = () => {
   const avgMoodData = calculateEmotionData(moodDataPerDay);
 
-  // Sort the emotions in descending order based on the count (value)
   const sortedAvgMoodData = avgMoodData.sort((a, b) => b.value - a.value);
 
-  // Get the maximum value from the data to adjust the radius axis
   const maxValue = Math.max(...sortedAvgMoodData.map((data) => data.value));
 
   return (
@@ -85,29 +83,29 @@ const EmotionRadarChart = () => {
           <ResponsiveContainer width="100%" height="100%">
             <RadarChart cx="50%" cy="50%" outerRadius="70%" data={sortedAvgMoodData}>
               <PolarGrid 
-                stroke="#4e4e4e" // Darker grid lines
+                stroke="#4e4e4e"
                 strokeWidth={0.4} 
               />
               <PolarAngleAxis 
                 dataKey="emotion" 
-                tickLine={false} // Remove ticks
-                stroke="#fff" // White axis labels
+                tickLine={false} 
+                stroke="#fff" 
                 fontSize={12} // Smaller font for labels
               />
               <PolarRadiusAxis 
                 angle={30} 
                 domain={[0, maxValue+1  ]} 
-                tick={false} // Hide ticks
-                axisLine={false} // Remove the axis line
-                stroke="#fff" // White radius axis line
+                tick={false} 
+                axisLine={false} 
+                stroke="#fff" 
               />
               <Radar
                 name="Emotions"
                 dataKey="value"
-                stroke="#e74c3c" // Red stroke for the radar line
-                fill="#e74c3c"  // Same red for the fill
-                fillOpacity={0.5}  // More transparency for sleek design
-                strokeWidth={3}    // Thicker line for emphasis
+                stroke="#e74c3c" 
+                fill="#e74c3c"  
+                fillOpacity={0.5}  
+                strokeWidth={3}    
               />
               <Tooltip />
             </RadarChart>
