@@ -29,3 +29,4 @@ dist-ssr
 .env
 
 sentiment-model/venv/
+sentiment-model/fine-tuned-emotion-model/
