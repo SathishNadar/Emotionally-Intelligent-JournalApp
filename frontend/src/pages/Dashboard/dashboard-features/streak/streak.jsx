@@ -15,11 +15,11 @@ const Streak = () => {
     "2025-03-01": true,
     "2025-03-02": false,
     "2025-03-03": true,
-    "2025-03-04": true,
-    "2025-03-05": false,
-    "2025-03-06": false,
-    "2025-03-07": true,
-    "2025-04-08": true,
+    "2025-04-05": true,
+    "2025-04-04": false,
+    "2025-04-03": true,
+    "2025-04-02": true,
+    "2025-04-01": true,
   };
 
   // Function to calculate longest and current streak

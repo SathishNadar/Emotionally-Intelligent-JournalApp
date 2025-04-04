@@ -1,31 +1,58 @@
-
+/* Reset and Container */
 .diary-pageman {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
-/* Main Diary Container */
+/* Base diary container */
 .diary-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Default center alignment */
+  justify-content: center; 
   height: 100vh;
   width: 100vw;
-  background: radial-gradient(circle at center, #0a0f1a, #04050a);
-  padding: 20px;
+  background: radial-gradient(
+      circle at 30% 30%,
+      rgba(100, 0, 150, 0.5),
+      transparent
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(0, 100, 200, 0.5),
+      transparent
+    ),
+    #04050a;
+  background-size: 200% 200%;
   transition: background 1s ease-in-out;
-  overflow: hidden; /* Prevents unwanted scrolling */
+  padding: 20px;
+  overflow: hidden; 
 }
 
-/* When messages exist, input moves down */
+/* Animated background class */
+.diary-container.animated-bg {
+  animation: pulseBackground 5s ease-in-out infinite;
+}
+
+@keyframes pulseBackground {
+  0% {
+    background-position: 10% 10%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 10% 10%;
+  }
+}
+
 .diary-container.has-messages {
   justify-content: flex-end;
 }
 
-/* Chat Area - Fully Transparent */
+/* Chat area */
 .diary-chat {
   width: 50vw;
   height: calc(100vh - 22vh);
@@ -40,7 +67,6 @@
   background: transparent;
 }
 
-/* Prevent messages from overflowing */
 .diary-chat::-webkit-scrollbar {
   width: 8px;
 }
@@ -54,26 +80,25 @@
   background: transparent;
 }
 
-/* Chat Messages */
+/* Message bubbles */
 .diary-message {
   word-wrap: break-word;
   overflow-wrap: break-word;
   background: rgba(255, 255, 255, 0.08);
   padding: 10px 14px;
-  border-radius: 10px;
+  border-radius: 3px;
   max-width: 90%;
-  align-self: flex-start; /* Default: messages on the left */
+  align-self: flex-start;
 }
 
-/* User's messages should be aligned to the right */
 .diary-message.user {
   align-self: flex-end;
-  background: rgba(255, 0, 128, 0.56); /* Slightly different for user messages */
+  background: rgba(255, 0, 128, 0.56);
   text-align: right;
-  border-radius: 50px;
+  border-radius: 15px;
 }
 
-/* Input Container - Glassmorphic Effect */
+/* Input area */
 .diary-input-container {
   display: flex;
   align-items: center;
@@ -87,20 +112,20 @@
   overflow: hidden;
 }
 
-/* Input Positioned in the Middle Initially */
+/* Centered input before typing */
 .diary-container:not(.has-messages) .diary-input-container {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
 }
 
-/* Input Moves Down When Chat Appears */
+/* Moves input down after first entry */
 .input-moved {
   position: relative;
   transform: translateY(-8%);
 }
 
-/* Input Field */
+/* Textarea input */
 .diary-input {
   flex-grow: 1;
   background: transparent;
@@ -114,13 +139,16 @@
   overflow: hidden;
 }
 
-/* Placeholder Styling */
 .diary-input::placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-size: 16px;
 }
 
-/* Send Button */
+.diary-input::-webkit-scrollbar {
+  display: none;
+}
+
+/* Send button */
 .diary-send-btn {
   background: none;
   border: none;
@@ -133,9 +161,4 @@
 
 .diary-send-btn:hover {
   transform: scale(1.2);
-}
-
-/* Prevent input text overflow */
-.diary-input::-webkit-scrollbar {
-  display: none;
 }
