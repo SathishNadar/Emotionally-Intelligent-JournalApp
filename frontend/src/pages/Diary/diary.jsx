@@ -58,7 +58,8 @@ const AIDiary = () => {
   };
 
   return (
-    <div className={`diary-container ${hasSession ? "has-messages" : ""} ${animateBackground ? "animated-bg" : ""}`}>
+    <div className="diary-pageman">
+      <div className={`diary-container ${hasSession ? "has-messages" : ""} ${animateBackground ? "animated-bg" : ""}`}>
       {/* Chat area (visible only after the first message is sent) */}
       {hasSession && (
         <div className="diary-chat">
@@ -83,6 +84,7 @@ const AIDiary = () => {
           ➤
         </button>
       </div>
+    </div>
     </div>
   );
 };

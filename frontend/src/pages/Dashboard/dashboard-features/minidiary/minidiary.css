@@ -38,14 +38,19 @@
   left: 0;
   pointer-events: none;
   overflow: hidden;
+  z-index: 0;
 }
 
 .bubble {
   position: absolute;
-  background: rgba(255, 248, 248, 0.896);
+  background: linear-gradient(
+    135deg,
+    rgba(132, 1, 255, 0.99),
+    rgba(0, 123, 255, 0.85)
+  );
   border-radius: 50%;
   opacity: 0.7;
-  filter: blur(5px);
+  filter: blur(2px);
   animation: floatUp linear infinite;
   pointer-events: none;
 }
@@ -58,7 +63,7 @@
   }
   to {
     transform: translateY(-10vh) scale(1.5);
-    opacity: 0;
+    opacity: 0.3;
   }
 }
 
@@ -70,11 +75,22 @@
 }
 
 /* Input Box */
-.mini-diary-textarea {
-  overflow: hidden;
+.mini-diary-wrapper {
+  position: relative;
   width: 90%;
   height: 270px;
-  background: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The textarea itself */
+.mini-diary-textarea {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  height: 270px;
+  background: rgba(20, 20, 30, 0.4); /* Semi-transparent frosted glass */
   border: 2px solid transparent;
   border-radius: 10px;
   padding: 10px;
@@ -82,7 +98,9 @@
   color: white;
   outline: none;
   resize: none;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
 }
 
 /* Glowing border animation on focus */
@@ -93,7 +111,7 @@
   animation: moving-border 1.2s infinite linear;
 }
 
-/* More Vibrant Moving Border Animation */
+/* Moving Border Animation */
 @keyframes moving-border {
   0% {
     border-image-source: linear-gradient(90deg, #ab07f1, #3498db);
@@ -108,7 +126,8 @@
     border-image-slice: 1;
   }
 }
-/* Send Button */
+
+/* Buttons */
 .mini-diary-button {
   margin-top: 10px;
   padding: 10px 20px;
@@ -119,13 +138,14 @@
   font-size: 16px;
   color: white;
   transition: background 0.3s ease;
+  z-index: 1;
 }
 
 .mini-diary-button:hover {
   background: #e67e22;
 }
 
-.button-container{
+.button-container {
   display: flex;
   gap: 20px;
 }

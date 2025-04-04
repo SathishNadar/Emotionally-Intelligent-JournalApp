@@ -1,9 +1,9 @@
-/* Global Reset */
-* {
+
+.diary-pageman {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Blocks horizontal scrolling */
+  overflow-x: hidden;
 }
 
 /* Main Diary Container */
