@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import "./diary.css";
 
@@ -18,6 +17,23 @@ const AIDiary = () => {
     }
   }, []);
 
+  const handleAnalyzeEmotion = async (text) => {
+    try {
+      const response = await fetch("http://127.0.0.1:5000/analyze_emotion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      });
+
+      const data = await response.json();
+      console.log("Detected Emotion:", data.emotion);
+    } catch (error) {
+      console.error("Error analyzing emotion:", error);
+    }
+  };
+
   const handleSend = () => {
     if (input.trim() !== "") {
       const newMessage = { text: input, type: "user" }; // Mark as user input
@@ -25,6 +41,7 @@ const AIDiary = () => {
       setMessages(newMessages);
       sessionStorage.setItem("diaryMessages", JSON.stringify(newMessages));
       setInput("");
+      handleAnalyzeEmotion(input);
 
       if (!hasSession) {
         setHasSession(true);
