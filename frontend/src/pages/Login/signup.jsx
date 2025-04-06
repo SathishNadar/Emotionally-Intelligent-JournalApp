@@ -19,6 +19,14 @@ const Signup = () => {
     try {
       await createUserWithEmailAndPassword(Auth, email, password);
       let user = Auth.currentUser;
+      const firebase_id = user.uid;
+
+      try {
+        await fetch(`http://localhost:7777/db/sync-user/${firebase_id}`);
+      } catch (err) {
+        console.warn("User DB sync failed:", err.message);
+      }
+
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
@@ -36,8 +44,17 @@ const Signup = () => {
   // 🎯 Google Sign-up Function
   const GoogleSignUp = async () => {
     const provider = new GoogleAuthProvider();
+    
     try {
-      await signInWithPopup(Auth, provider);
+      const user = await signInWithPopup(Auth, provider);
+      const firebase_id = user.user.uid;
+
+      try {
+        await fetch(`http://localhost:7777/db/sync-user/${firebase_id}`);
+      } catch (err) {
+        console.warn("User DB sync failed:", err.message);
+      }
+      
       toast.success("Google Sign-up Successful!", { position: "top-right" });
       navigate("/dashboard");
     } catch (error) {

@@ -5,6 +5,7 @@ import { Auth } from "../../../../backend/firebase/firebase.js";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +17,15 @@ const Login = () => {
   const LoginRequest = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(Auth, email, password);
+      const user = await signInWithEmailAndPassword(Auth, email, password);
+      const firebase_id = user.user.uid;
+
+      try {
+        await fetch(`http://localhost:7777/db/sync-user/${firebase_id}`);
+      } catch (err) {
+        console.warn("User DB sync failed:", err.message);
+      }
+
       toast.success("Login Successful!", { position: "top-right" });
       navigate("/dashboard"); 
     } catch (error) {
@@ -29,12 +38,19 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
     try {
       var user = await signInWithPopup(Auth, provider);
-      
+      const firebase_id = user.user.uid;
+
+      try {
+        await fetch(`http://localhost:7777/db/sync-user/${firebase_id}`);
+      } catch (err) {
+        console.warn("User DB sync failed:", err.message);
+      }
+
       toast.success("Google Sign-in Successful!", { position: "top-right" });
       navigate("/");
     } catch (error) {
       toast.error("Google Sign-in Failed", { position: "top-right" });
-    }
+    }   
   };
 
   return (

@@ -83,14 +83,12 @@ export async function insertUser(firebase_id, email, name) {
     }
 }
 
-export async function UpdateUser(firebase_id) {
+export async function SyncUser(firebase_id) {
     try {
         if (!firebase_id) {
             throw new Error("firebase_id is required");
         }
-        // console.log(firebase_id)
         const firebaseUser = await admin.auth().getUser(firebase_id);
-        console.log(firebaseUser)
         const email = firebaseUser.email;
         const name = firebaseUser.displayName || "Unknown";
 
@@ -110,11 +108,11 @@ export async function UpdateUser(firebase_id) {
 
 
 // Post API to insert user
-router.get("/update-user/:firebase_id", async (req, res) => {
+router.get("/sync-user/:firebase_id", async (req, res) => {
     try {
         const firebase_id = req.params.firebase_id
-        const user = await UpdateUser(firebase_id);
-        // console.log(firebase_id)
+        const user = await SyncUser(firebase_id);
+        console.log("User Synced : ", user.name)
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });
