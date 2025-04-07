@@ -2,16 +2,17 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import axios from "axios";
-
 import cookieParser from "cookie-parser";
 import SpotifyWebApi from "spotify-web-api-node";
 
 import chatbotAPI from "./chatbot.js"
+import databaseRoutes, * as DB from "./database.js";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use("/db", databaseRoutes);
 app.use(
   cors({
     origin: "http://localhost:5173", // Set frontend origin explicitly

@@ -1,8 +1,12 @@
 import mongoose from "mongoose"
+import express from "express"
+import admin from "./firebase/firebase-admin.js";
 
 mongoose.connect("mongodb://localhost:27017/SEM6")
 .then(() => console.log("Mongo Connected"))
 .catch((err) => console.error("Mongo Error : ", err))
+
+const router = express.Router();
 
 const user_schema = new mongoose.Schema({
     name: { type: String, require: true },
@@ -22,17 +26,11 @@ const diary_schema = new mongoose.Schema({
 
 const diary = mongoose.model("diary", diary_schema);
 
-// functions:
-// |__ user:
-// |  |__ fetching user_id using firebase_id
-// |  |__ fetching user data using firebase_id
-// |  |__ inserting user
-// |__ diary:
-// |  |__ inserting diary
-// |  |__ fetching diary using user_id
 
 // ------------------------ USER FUNCTION ------------------------ //
 
+
+// Function to fetch user_id using firebase_id
 export async function fetchUserId(firebase_id) {
     try {
         if (!firebase_id) {
@@ -51,6 +49,7 @@ export async function fetchUserId(firebase_id) {
     }
 }
 
+// Function to fetch user data
 export async function fetchUser(firebase_id) {
     try {
         if (!firebase_id) {
@@ -60,32 +59,83 @@ export async function fetchUser(firebase_id) {
         const userData = await user.findOne({ firebase_id: firebase_id});
         
         if (!userData) {
-            return resizeBy.status(404).json({message: "User not found!"});
+            throw new Error("User not found");
         }
-        return userData._id;
+        return userData;
     } catch (error) {
         console.error("❌ Error inserting diary entry:", error.message);
         throw error;
     }
 }
 
-
-export async function insertUser({ firebase_id, name = "", email = ""}) {
+// Function to insert user
+export async function insertUser(firebase_id, email, name) {
     try {
         if (!firebase_id) {
             throw new Error("firebase_id is required");
         }
-        
-        const newUser = new user({firebase_id, name, email});
+        const newUser = new user({ firebase_id, email, name });
         await newUser.save();
-        console.log("User inserted!");
         return newUser;
-        
-     } catch (error) {
-        console.error("❌ Error inserting diary entry:", error.message);
+    } catch (error) {
+        console.error("Error inserting user:", error);
         throw error;
     }
 }
+
+export async function SyncUser(firebase_id) {
+    try {
+        if (!firebase_id) {
+            throw new Error("firebase_id is required");
+        }
+        const firebaseUser = await admin.auth().getUser(firebase_id);
+        const email = firebaseUser.email;
+        const name = firebaseUser.displayName || "Unknown";
+
+        let userdata = await user.findOne({ firebase_id });
+
+        if (!userdata) {
+            userdata = new user({ firebase_id, email, name });
+            await userdata.save();
+        }
+
+        return userdata;
+    } catch (error) {
+        console.error("❌ Error updating user:", error.message);
+        throw error;
+    }
+}
+
+
+// Post API to insert user
+router.get("/sync-user/:firebase_id", async (req, res) => {
+    try {
+        const firebase_id = req.params.firebase_id
+        const user = await SyncUser(firebase_id);
+        console.log("User Synced : ", user.name)
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Get API to fetch user by firebase_id
+router.get("/get-user/:firebase_id", async (req, res) => {
+    try {
+        const user = await fetchUser(req.params.firebase_id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+
 
 // ------------------------ DIARY FUNCTION ------------------------ //
 
@@ -95,8 +145,13 @@ export async function insertDiary(firebase_id, title = "", content = "", emo_sta
         if (!firebase_id) {
             throw new Error("firebase_id is required");
         }
-        
-        const newDiary = new diary({ firebase_id, title, content, emo_state });
+
+        const newDiary = new diary({  
+            userFB_id: firebase_id, 
+            title: title, 
+            content: content, 
+            emo_state: emo_state 
+        });
         await newDiary.save();
         console.log("✅ Diary entry saved successfully!");
         return newDiary;
@@ -107,7 +162,7 @@ export async function insertDiary(firebase_id, title = "", content = "", emo_sta
 }
 
 // Function to Fetch Diary by user ID
-export async function fetchDiary(firebase_id) {
+export async function fetchDiaries (firebase_id) {
     try {
         if (!firebase_id) {
             throw new Error("user_id is required");
@@ -121,7 +176,35 @@ export async function fetchDiary(firebase_id) {
     }
 }
 
-async function getDiaryStreak(userFB_Id) {
+// Function to Fetch Diary by user ID and Date
+export async function fetchDiariesByDate(firebase_id, date) {
+    try {
+        if (!firebase_id) {
+            throw new Error("user_id is required");
+        }
+
+        let query = { userFB_id: firebase_id };
+
+        if (date) {
+            const startDate = new Date(date);
+            const endDate = new Date(date);
+            endDate.setDate(endDate.getDate() + 1);
+
+            query.createdAt = {
+                $gte: startDate,
+                $lt: endDate
+            };
+        }
+
+        const diaries = await diary.find(query);
+        return diaries;
+    } catch (error) {
+        console.error("❌ Error fetching diary entries:", error.message);
+        throw error;
+    }
+}
+
+export async function getDiaryStreak(userFB_Id) {
     const today = new Date();
     today.setUTCHours(23, 59, 59, 999);
     const firstOfMonth = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1));
@@ -139,10 +222,12 @@ async function getDiaryStreak(userFB_Id) {
         streak[dateStr] = false;
     }
 
+    console.log(diaries)
+
     diaries.forEach(diary => {
         const diaryDate = diary.createdAt.toISOString().split("T")[0];
         if (streak.hasOwnProperty(diaryDate)) {
-            streak[diaryDate] = true;
+            streak[diaryDate] = diary.emo_state;
         }
     });
 
@@ -150,26 +235,55 @@ async function getDiaryStreak(userFB_Id) {
 }
 
 
-// Example Usage
-(async () => {
-        const userFB_Id = "nice"; // Example Firebase ID
-        const result = await getDiaryStreak(userFB_Id);
-        console.log(result);
-    })();
-    
-    
-// const today = new Date()
-// const year = today.getMonth()
-// console.log(year)
-// const t = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).toISOString().split("T")[0];
-// console.log(t)
+// POST API to insert diary
+router.post("/insert-diary", async (req, res) => {
+    try {
+        const user = await insertDiary(req.body.firebase_id, req.body.title, req.body.content, req.body.emo_state);
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
-// const diaries = await diary.find()
-// console.log(diaries)
+// POST API to fetch diary
+router.get("/get-user-diaries/:firebase_id", async (req, res) => {
+    try {
+        const firebase_id = req.params.firebase_id;
+        const date = req.query.date;
+        let diaries;
 
-// const result = await diary.create({
-//     userFB_id: "nice",
-//     title: "bad day",
-//     content: "nayes bikes man, how to make this?",
-//     emo_state: "holy"
-// })
+        if (date) {
+            diaries = await fetchDiariesByDate(firebase_id, date);
+            console.log("date is found")
+        } else {
+            diaries = await fetchDiaries(firebase_id);
+            console.log("date is not found")
+        }
+
+        if (!diaries) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(diaries);
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// GET API to fetch streak
+router.get("/get-streak/:firebase_id", async (req, res) => {
+    try {
+        const streak = await getDiaryStreak(req.params.firebase_id);
+        res.status(201).json(streak);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+
+
+
+
+export default router;
