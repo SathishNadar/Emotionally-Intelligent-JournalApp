@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "./chatbot.css";
 import DashboardNavbar from "../Navbar/Navbar";
+import Footers from "../footer/footers";
 
 const Chatbot = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const sendMessage = async () => {
-    if (!input.trim() || isLoading) return; // Prevent multiple clicks
+    if (!input.trim() || isLoading) return;
 
-    const newMessages = [...messages, { text: input, sender: "user" }];
-    setMessages(newMessages);
+    const userMessage = { text: input, sender: "user" };
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages); // Show user message immediately
+    setInput(""); // Clear the input right away
     setIsLoading(true);
 
     try {
@@ -26,65 +27,81 @@ const Chatbot = () => {
       if (!res.body) throw new Error("No response body");
 
       const reader = res.body.getReader();
-      let decoder = new TextDecoder();
-      let botMessage = { text: "", sender: "ai" };
-      let updatedMessages = [...newMessages, botMessage];
+      const decoder = new TextDecoder();
+      let botText = "";
 
-      setMessages(updatedMessages);
+      // Show bot message progressively
+      setMessages((prev) => [...prev, { text: "", sender: "ai" }]);
 
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-        botMessage.text += decoder.decode(value, { stream: true });
-        setMessages([...updatedMessages]);
+
+        botText += decoder.decode(value, { stream: true });
+
+        // Update only the latest message (bot's)
+        setMessages((prev) => {
+          const temp = [...prev];
+          temp[temp.length - 1] = { text: botText, sender: "ai" };
+          return temp;
+        });
       }
     } catch (error) {
       console.error("Error fetching response:", error);
-      setMessages([...newMessages, { text: "Error getting response. Try again.", sender: "ai" }]);
+      setMessages((prev) => [
+        ...prev,
+        { text: "Something went wrong!", sender: "ai" },
+      ]);
     } finally {
       setIsLoading(false);
     }
+  };
 
-    setInput("");
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
   return (
     <>
-    <DashboardNavbar/>
-    <div className="chat-container">
-      <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
-        BUTTON
-      </button>
-      <div className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
-        <h3>Chat History</h3>
-        {messages.map((msg, index) => (
-          msg.sender === "user" && <p key={index}>{msg.text}</p>
-        ))}
-      </div>
-
-      <div className="chat-area">
-        <h2>CHAT BUDDY</h2>
-        <div className="chat-box">
+      <DashboardNavbar />
+      <div className="chatbot-page">
+        <div className="chatbot-chat">
           {messages.map((msg, index) => (
-            <p key={index} className={msg.sender === "user" ? "user-msg" : "bot-msg"}>
-              {msg.sender === "user" ? "You: " : "Bot: "} {msg.text}
-            </p>
+            <div
+              key={index}
+              className={`chatbot-message ${
+                msg.sender === "user" ? "user" : "bot"
+              }`}
+            >
+              {msg.text}
+            </div>
           ))}
         </div>
-        <div className="chat-input">
-          <input 
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type a message..."
-            className="message-input"
-          />
-          <button onClick={sendMessage} className="send-button" disabled={isLoading}>
-            {isLoading ? "Loading..." : "Send"}
-          </button>
+
+        <div className="chatbot-input-wrapper">
+          <div className="chatbot-input-container">
+            <textarea
+              className="chatbot-input"
+              placeholder="Type your message..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyPress}
+              rows={1}
+            />
+            <button
+              onClick={sendMessage}
+              className="chatbot-send-btn"
+              disabled={isLoading}
+            >
+              {isLoading ? "..." : "➤"}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+      <Footers />
     </>
   );
 };

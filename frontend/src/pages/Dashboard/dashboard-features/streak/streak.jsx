@@ -10,7 +10,7 @@ const Streak = () => {
   const dayOfMonth = today.getDate();
   const monthName = today.toLocaleString("default", { month: "long" });
   const formattedDate = `${monthName} ${dayOfMonth}, ${year}`;
-  // Example streak data (later will be fetched from API)
+
   const streakData = {
     "2025-03-01": true,
     "2025-03-02": false,
@@ -22,7 +22,6 @@ const Streak = () => {
     "2025-04-01": true,
   };
 
-  // Function to calculate longest and current streak
   const calculateStreaks = () => {
     let current = 0,
       maxStreak = 0;
