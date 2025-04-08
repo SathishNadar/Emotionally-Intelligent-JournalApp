@@ -9,6 +9,7 @@ import SpotifyLogin from './pages/spotifyLogin.jsx';
 import SpotifyCallback from './pages/spotifyCallback.jsx';
 import Chatbot from './pages/Chatbot/chatbot.jsx'
 import Diary from './pages/Diary/diary.jsx';
+import Past from './pages/past_entries/past.jsx';
 import "./index.css";
 
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/spotify" element={<Spotify />} />
         <Route path="/ai" element={<Chatbot/>} />
         <Route path="/diary" element={<Diary/>} />
+        <Route path="/past" element = {<Past/>}/>
       </Routes>
     </div>
   );

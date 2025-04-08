@@ -10,7 +10,7 @@ function DashboardNavbar() {
       <h1>Logo</h1> 
       <nav>
         <button onClick={() => navigate("/dashboard")}>Home</button>
-        <button onClick={() => navigate("/past-entries")}>Past Entries</button>
+        <button onClick={() => navigate("/past")}>Past Entries</button>
         <button onClick={() => navigate("/uplifting-content")}>Uplifting Content</button>
         <button
         onClick={() => navigate("/spotifylogin")}
