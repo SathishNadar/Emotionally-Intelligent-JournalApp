@@ -11,6 +11,7 @@ import databaseRoutes, * as DB from "./database.js";
 dotenv.config();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use("/db", databaseRoutes);
 app.use(

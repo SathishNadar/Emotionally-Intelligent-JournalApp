@@ -30,3 +30,4 @@ dist-ssr
 
 sentiment-model/venv/
 sentiment-model/fine-tuned-emotion-model/
+firebase/fir-testing-a3937-firebase-adminsdk-fbsvc-206487461f.json

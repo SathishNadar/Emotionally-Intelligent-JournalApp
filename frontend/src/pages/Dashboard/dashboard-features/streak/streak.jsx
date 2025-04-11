@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./d-f.css"; // Styling for the streak section
 
 const Streak = () => {
@@ -11,16 +11,29 @@ const Streak = () => {
   const monthName = today.toLocaleString("default", { month: "long" });
   const formattedDate = `${monthName} ${dayOfMonth}, ${year}`;
 
-  const streakData = {
-    "2025-03-01": true,
-    "2025-03-02": false,
-    "2025-03-03": true,
-    "2025-04-05": true,
-    "2025-04-04": false,
-    "2025-04-03": true,
-    "2025-04-02": true,
-    "2025-04-01": true,
-  };
+  const [streakData, setStreakData] = useState({});
+
+useEffect(() => {
+  async function fetchStreak() {
+    try {
+      const res = await fetch("http://localhost:7777/db/get-streak/nice");
+      const data = await res.json();
+      console.log(data)
+      setStreakData(data);
+    } catch (err) {
+      console.error("Failed to fetch streak data:", err); 
+      setStreakData({
+        "2025-04-05": true,
+        "2025-04-04": false,
+        "2025-04-03": true,
+        "2025-04-02": true,
+        "2025-04-01": true,
+      });
+    }
+  }
+
+  fetchStreak();
+}, []);
 
   const calculateStreaks = () => {
     let current = 0,
