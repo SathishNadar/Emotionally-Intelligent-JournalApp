@@ -12,7 +12,7 @@ const diaryEntriesPast = [
   { date: '2025-03-06', content: 'Watched a beautiful sunset. It reminded me to slow down and enjoy the moment.' },
   { date: '2025-03-07', content: 'Started reading a new book. It’s so captivating I couldn’t put it down.' },
   { date: '2025-03-08', content: 'Struggled with motivation today. Just trying to push through.' },
-  { date: 'The beggining after the end', content: 'More to come, more to feel, more to write... This is just the beginning of my story.' }
+  { date: 'The beginning after the end', content: 'More to come, more to feel, more to write... This is just the beginning of my story.' }
 ];
 
 const Past = () => {
