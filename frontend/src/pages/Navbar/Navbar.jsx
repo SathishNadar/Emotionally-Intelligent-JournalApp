@@ -11,7 +11,7 @@ function DashboardNavbar() {
       <nav>
         <button onClick={() => navigate("/dashboard")}>Home</button>
         <button onClick={() => navigate("/past")}>Past Entries</button>
-        <button onClick={() => navigate("/uplifting-content")}>Uplifting Content</button>
+        <button onClick={() => navigate("/otherfeatures")}>Uplifting Content</button>
         <button
         onClick={() => navigate("/spotifylogin")}
         style={{ margin: "10px", padding: "10px 20px", fontSize: "16px" }}

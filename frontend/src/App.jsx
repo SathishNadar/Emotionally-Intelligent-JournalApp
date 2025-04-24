@@ -10,6 +10,7 @@ import SpotifyCallback from './pages/spotifyCallback.jsx';
 import Chatbot from './pages/Chatbot/chatbot.jsx'
 import Diary from './pages/Diary/diary.jsx';
 import Past from './pages/past_entries/past.jsx';
+import OtherFeatures from './pages/otherFeatures/otherFeatures.jsx';
 import "./index.css";
 
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/ai" element={<Chatbot/>} />
         <Route path="/diary" element={<Diary/>} />
         <Route path="/past" element = {<Past/>}/>
+        <Route path="/otherfeatures" element={<OtherFeatures/>}/>
       </Routes>
     </div>
   );
