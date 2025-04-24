@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 import express from "express"
 import admin from "./firebase/firebase-admin.js";
 
-mongoose.connect("mongodb://localhost:2701/SEM6")
+mongoose.connect("mongodb://localhost:27017/SEM6")
 .then(() => console.log("Mongo Connected"))
 .catch((err) => console.error("Mongo Error : ", err))
 
