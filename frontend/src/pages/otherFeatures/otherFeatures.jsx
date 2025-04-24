@@ -15,10 +15,10 @@ function OtherFeatures() {
     <>
     <DashboardNavbar/>
     <div className="features-container">
-      <div className="p1"><Pomodoro/></div>
-      <div className="p2"><ToDo/></div>
-      <div className="p3"><Spotify/></div>
-      <div className="p4"><AI/></div>
+      <div className="p1 feature-section"><Pomodoro/></div>
+      <div className="p2 feature-section"><ToDo/></div>
+      <div className="p3 feature-section"><Spotify/></div>
+      <div className="p4 feature-section"><AI/></div>
     </div>
     <Footers/>
     </>
