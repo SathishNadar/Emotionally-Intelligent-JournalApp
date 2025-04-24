@@ -1,11 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./otherFeatures.css";
+import DashboardNavbar from "../Navbar/Navbar";
+import Footers from "../footer/footers";
 
 function OtherFeatures() {
   const navigate = useNavigate();
 
   return (
+    <>
+    <DashboardNavbar/>
     <div className="features-container">
       {/* Section 1: Pomodoro Timer */}
       <div className="feature-section" id="pomodoro-timer">
@@ -42,6 +46,8 @@ function OtherFeatures() {
         <button onClick={() => navigate("/ai")}>Go to AI Chat</button>
       </div>
     </div>
+    <Footers/>
+    </>
   );
 }
 
