@@ -7,7 +7,7 @@ function DashboardNavbar() {
 
   return (
     <header className="dashboard-navbar">
-      <h1>Logo</h1> 
+      <h1 className="logo">Logo</h1> 
       <nav>
         <button onClick={() => navigate("/dashboard")}>Home</button>
         <button onClick={() => navigate("/past")}>Past Entries</button>

@@ -95,7 +95,7 @@
   gap: 15px;
 }
 
-button {
+.btns {
   background: linear-gradient(to right, #ff69b4, #ba55d3);
   border: none;
   padding: 10px 16px;
@@ -106,7 +106,7 @@ button {
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
+.btns:hover {
   background: linear-gradient(to right, #ff85c1, #b76ddc);
   transform: scale(1.05);
 }

@@ -46,7 +46,7 @@ const Past = () => {
           </div>
         </div>
         <div className="controls-past">
-          <button onClick={prevPagePast}>Previous</button>
+          <button className='btns' onClick={prevPagePast}>Previous</button>
           <div className="minicontrols">
           <input
             type="range"
@@ -56,9 +56,9 @@ const Past = () => {
             onChange={handleSliderChangePast}
             className="slider-past"
           />
-          <button onClick={randomPagePast}>Random Page</button>
+          <button className='btns'  onClick={randomPagePast}>Random Page</button>
           </div>
-          <button onClick={nextPagePast}>Next</button>
+          <button className='btns' onClick={nextPagePast}>Next</button>
         </div>
       </div>
       <Footers />

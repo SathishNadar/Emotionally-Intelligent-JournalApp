@@ -1,7 +1,7 @@
 .dashboard-container {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    grid-template-rows: repeat(11, 1fr);
+    grid-template-rows: repeat(10, 1fr);
     gap: 10px; 
     width: 90%;
     height: 110vh; 
@@ -26,11 +26,11 @@
     background: #1e1e1e;
     border-radius: 10px;
     padding: 20px;
-    overflow: hidden; /* Keeps everything inside */
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
 .s3 {
     grid-column: 5 / 10;
@@ -49,21 +49,17 @@
 .s4 {
     grid-column: 1 / 5;
     grid-row: 6 / 10;
-    background: #3d7b89;
+    background: #2f2f2f;
     border-radius: 10px;
     padding: 20px;
-}
-
-.s5 {
-    grid-column: 1 / 10;
-    grid-row: 10 / -1;
-    background: #191919;
-    border-radius: 10px;
-    padding: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 /* Common Section Styling */
-.s1, .s2, .s3, .s4, .s5 {
+.s1, .s2, .s3, .s4 {
     color: white;
     display: flex;
     align-items: center;
@@ -74,11 +70,10 @@
     border-radius: 10px;    
     will-change: transform;
     opacity: 0;
-    transform: translate3d(0, 10px, 0) scale(0.98); /* Smooth transition */
+    transform: translate3d(0, 10px, 0) scale(0.98);
     animation: fadeInUp 0.8s ease-out forwards;
     transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-    
-    /* Fix text distortion */
+
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -90,12 +85,11 @@
 .s2 { animation-delay: 0.4s; }
 .s3 { animation-delay: 0.6s; }
 .s4 { animation-delay: 0.8s; }
-.s5 { animation-delay: 1s; }
 
-/* Hover Effect (Text Distortion Fixed) */
-.s1:hover, .s2:hover, .s3:hover, .s4:hover, .s5:hover {
-    transform: translateY(-3px); /* ⬅️ Creates the lift effect */
-    box-shadow: 0px 15px 25px rgba(255, 255, 255, 0.2); /* ⬅️ Increases shadow for depth */
+/* Hover Effect */
+.s1:hover, .s2:hover, .s3:hover, .s4:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 15px 25px rgba(255, 255, 255, 0.2);
     will-change: transform, box-shadow;
     backface-visibility: hidden;
 }

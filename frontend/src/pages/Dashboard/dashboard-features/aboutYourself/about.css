@@ -1,0 +1,102 @@
+:root {
+    --bg-main: #534c6d40;              /* Dark purple-grey background */
+    --bg-chip: #392d61;              /* Deep purple chip */
+    --bg-chip-hover: #5141a5;        /* Electric purple on hover */
+  
+    --bg-answer: #2b2844;            /* Slightly darker for answer box */
+  
+    --border-color: #6fffe9;         /* Aqua border */
+    --border-answer: #9f8fff;        /* Purple-pinkish border for answer */
+  
+    --text-primary: #b8f6ff;         /* Aqua text */
+    --text-secondary: #d0b3ff;       /* Light purple text */
+    --text-header: #7fffd4;          /* Vibrant aqua for header */
+    --text-close: #6fffe9;           /* Aqua close button */
+    --text-answer: #e0e8ff;          /* Light clean text for answer content */
+  }
+  
+  
+  .section4-wrapper {
+    background: var(--bg-main);
+    border-radius: 10px;
+    padding: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-primary);
+  }
+  
+  .header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: var(--text-header);
+  }
+  
+  .question-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .chip {
+    background: var(--bg-chip);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .chip:hover {
+    background: var(--bg-chip-hover);
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+  }
+  
+  .answer-box {
+    background-color: var(--bg-answer);
+    border-radius: 10px;
+    padding: 12px 18px;
+    width: 90%;
+    max-width: 480px;
+    margin: 20px auto;
+    position: relative;
+    border: 1px solid var(--border-answer);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    color: var(--text-primary);
+  }
+  
+  .answer-box h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: var(--text-header);
+  }
+  
+  .answer-box p {
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 0;
+    color: var(--text-answer);
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: var(--text-close);
+    cursor: pointer;
+  }
+  
+  .close-btn:hover {
+    color: var(--text-close);
+  }
+  
