@@ -13,10 +13,20 @@ const Streak = () => {
 
   const [streakData, setStreakData] = useState({});
 
+  // streakData = {
+  //   "2025-04-05": true,
+  //   "2025-04-04": false,
+  //   "2025-04-03": true,
+  //   "2025-04-02": true,
+  //   "2025-04-01": true,
+  // }
+
 useEffect(() => {
   async function fetchStreak() {
     try {
-      const res = await fetch("http://localhost:7777/db/get-streak/nice");
+      const firebase_id = localStorage.getItem('firebase_id');
+
+      const res = await fetch(`http://localhost:7777/db/get-streak/${firebase_id}`);
       const data = await res.json();
       console.log(data)
       setStreakData(data);

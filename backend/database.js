@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 import express from "express"
 import admin from "./firebase/firebase-admin.js";
 
-mongoose.connect("mongodb://localhost:27017/SEM6")
+mongoose.connect("mongodb://localhost:2701/SEM6")
 .then(() => console.log("Mongo Connected"))
 .catch((err) => console.error("Mongo Error : ", err))
 
@@ -83,6 +83,7 @@ export async function insertUser(firebase_id, email, name) {
     }
 }
 
+// Function to Sync User
 export async function SyncUser(firebase_id) {
     try {
         if (!firebase_id) {
@@ -105,7 +106,6 @@ export async function SyncUser(firebase_id) {
         throw error;
     }
 }
-
 
 // Post API to insert user
 router.get("/sync-user/:firebase_id", async (req, res) => {
@@ -204,6 +204,7 @@ export async function fetchDiariesByDate(firebase_id, date) {
     }
 }
 
+// Function to fetch Diary streak
 export async function getDiaryStreak(userFB_Id) {
     const today = new Date();
     today.setUTCHours(23, 59, 59, 999);
@@ -234,6 +235,37 @@ export async function getDiaryStreak(userFB_Id) {
     return streak;
 }
 
+// Function to fetch Last 15 days Emo
+export async function getLast15DaysEmo(userFB_Id) {
+    const today = new Date();
+    today.setUTCHours(23, 59, 59, 999);
+
+    const fifteenDaysAgo = new Date(today);
+    fifteenDaysAgo.setUTCDate(today.getUTCDate() - 14);
+    fifteenDaysAgo.setUTCHours(0, 0, 0, 0);
+
+    const diaries = await diary.find({
+        userFB_id: userFB_Id,
+        createdAt: { $gte: fifteenDaysAgo, $lte: today }
+    });
+
+    const streak = {};
+    for (let d = 0; d < 15; d++) {
+        const date = new Date(fifteenDaysAgo);
+        date.setUTCDate(fifteenDaysAgo.getUTCDate() + d);
+        const dateStr = date.toISOString().split("T")[0];
+        streak[dateStr] = false;
+    }
+
+    diaries.forEach(diary => {
+        const diaryDate = diary.createdAt.toISOString().split("T")[0];
+        if (streak.hasOwnProperty(diaryDate)) {
+            streak[diaryDate] = diary.emo_state;
+        }
+    });
+
+    return streak;
+}
 
 // POST API to insert diary
 router.post("/insert-diary", async (req, res) => {
@@ -281,7 +313,15 @@ router.get("/get-streak/:firebase_id", async (req, res) => {
     }
 });
 
-
+// GET API to fetch last 15 days emo
+router.get("/get-last15emo/:firebase_id", async (req, res) => {
+    try {
+        const streak = await getLast15DaysEmo(req.params.firebase_id);
+        res.status(201).json(streak);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 
 

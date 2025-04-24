@@ -20,6 +20,8 @@ const Login = () => {
       const user = await signInWithEmailAndPassword(Auth, email, password);
       const firebase_id = user.user.uid;
 
+      localStorage.setItem('firebase_id', firebase_id);
+
       try {
         await fetch(`http://localhost:7777/db/sync-user/${firebase_id}`);
       } catch (err) {
@@ -39,6 +41,8 @@ const Login = () => {
     try {
       var user = await signInWithPopup(Auth, provider);
       const firebase_id = user.user.uid;
+
+      localStorage.setItem('firebase_id', firebase_id);
 
       try {
         await fetch(`http://localhost:7777/db/sync-user/${firebase_id}`);

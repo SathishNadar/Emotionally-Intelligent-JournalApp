@@ -11,7 +11,7 @@ import {
 import "./mood.css";
 
 // Sample mood data for last 15 days
-const moodDataPerDay = {
+let moodDataPerDay = {
   "Mar 1": "Joy",
   "Mar 2": "Sadness",
   "Mar 3": "Joy",
@@ -28,6 +28,18 @@ const moodDataPerDay = {
   "Mar 14": "Surprise",
   "Mar 15": "Disgust"
 };
+
+try {
+  const firebase_id = localStorage.getItem('firebase_id');
+  
+  const res = await fetch(`http://localhost:7777/db/get-last15emo/${firebase_id}`);
+  if (!res.ok) throw new Error("API error");
+  const data = await res.json();
+  moodDataPerDay = data;
+} catch (err) {
+  console.warn("⚠️ Using fallback mood data due to API failure:", err.message);
+}
+console.log(moodDataPerDay)
 
 // Emotion types
 const emotions = [
