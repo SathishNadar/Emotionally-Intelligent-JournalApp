@@ -1,0 +1,96 @@
+/* Pomodoro Timer Container */
+.pomodoro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f7fa;
+    border-radius: 10px;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title */
+  .pomodoro-container h2 {
+    font-family: 'Arial', sans-serif;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Select dropdown */
+  select {
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+    background-color: #fff;
+  }
+  
+  select:focus {
+    border-color: #007bff;
+  }
+  
+  /* Circular Progressbar Wrapper */
+  .pomodoro-container .CircularProgressbar {
+    margin: 20px 0;
+  }
+  
+  /* Progress Bar Circle */
+  .pomodoro-container .react-circular-progressbar-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    fill: #333;
+  }
+  
+  .pomodoro-container .react-circular-progressbar-path {
+    stroke-width: 10px;
+  }
+  
+  .pomodoro-container .react-circular-progressbar-trail {
+    stroke-width: 10px;
+  }
+  
+  /* Controls */
+  .controls {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* Start/Pause and Reset Buttons */
+  button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 120px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Audio Element */
+  audio {
+    display: none;
+  }

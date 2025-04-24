@@ -24,7 +24,7 @@ function SpotifyCallback() {
             localStorage.setItem("spotify_expires_in", Date.now() + data.expires_in * 1000);
             
             // Redirect user to main Spotify page
-            navigate("/spotify");
+            navigate("/home");
           } else {
             console.error("❌ No access token received.");
             navigate("/spotifylogin"); // Redirect back to login if auth fails

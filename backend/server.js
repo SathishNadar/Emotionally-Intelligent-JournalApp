@@ -80,7 +80,7 @@ app.get("/callback", async (req, res) => {
     res.cookie("spotify_refresh_token", refreshToken, { httpOnly: true, secure: false });
 
     // Redirect user to /spotify
-    res.redirect("http://localhost:5173/spotify");
+    res.redirect("http://localhost:5173/otherfeatures");
 
     // **Automatic Token Refresh**
     setInterval(async () => {

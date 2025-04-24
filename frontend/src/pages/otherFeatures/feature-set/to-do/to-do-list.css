@@ -1,0 +1,123 @@
+
+
+
+/* To-Do List Container */
+.todo-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+/* Title */
+.todo-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Input and Button Container */
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* Task Input */
+.input-container input {
+  width: 75%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+}
+
+.input-container input:focus {
+  border-color: #007bff;
+}
+
+/* Add Button */
+.input-container button {
+  width: 20%;
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.input-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Task List */
+.task-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+}
+
+.task.completed {
+  text-decoration: line-through;
+  background-color: #e0ffe0;
+  opacity: 0.6;
+  animation: strike-through 0.5s forwards;
+}
+
+@keyframes strike-through {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(1.1);
+  }
+}
+
+/* Delete Button */
+.delete-btn {
+  padding: 5px 10px;
+  font-size: 1rem;
+  color: white;
+  background-color: #e74c3c;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Clear All Button */
+.clear-btn {
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.clear-btn:hover {
+  background-color: #c0392b;
+}

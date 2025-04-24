@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 function PomodoroTimer() {
   const predefinedTimes = [
     { label: "Pomodoro (25 min)", value: 25 * 60 },
-    { label: "Short Break (5 min)", value: 1 * 10 },
+    { label: "Short Break (5 min)", value: 5 * 60 },
     { label: "Long Break (15 min)", value: 15 * 60 }
   ];
 
@@ -72,7 +72,6 @@ function PomodoroTimer() {
         <button onClick={handleReset}>Reset</button>
       </div>
       <audio ref={audioRef} src="/notifications.mp3" preload="auto" />
-      <button onClick={() => audioRef.current && audioRef.current.play()}>Test Audio</button>
     </div>
   );
 }
