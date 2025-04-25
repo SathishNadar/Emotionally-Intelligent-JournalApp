@@ -8,6 +8,7 @@ const AIDiary = () => {
   const [entryText, setEntryText] = useState("");
   const [savedEntries, setSavedEntries] = useState([]); // Store submitted entries
 
+
   useEffect(() => {
     const today = new Date();
     const formattedDate = today.toLocaleDateString("en-IN", {
@@ -25,7 +26,7 @@ const AIDiary = () => {
 
   const handleAnalyzeEmotion = async (text) => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/analyze_emotion", {
+      const response = await fetch("http://127.0.0.1:5001/analyze_emotion", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

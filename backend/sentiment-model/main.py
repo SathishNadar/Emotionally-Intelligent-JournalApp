@@ -3,7 +3,8 @@ from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassifica
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
+CORS(app, resources={r"/analyze_emotion": {"origins": "http://localhost:5173"}})
 # CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 # model_path = "./fine-tuned-emotion-model"  
@@ -27,7 +28,7 @@ def analyze_emotion():
     return jsonify({"text": user_text, "emotion": result})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
 
 # from transformers import AutoConfig
 
