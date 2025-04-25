@@ -1,7 +1,7 @@
 :root {
-    --bg-main: #534c6d40;              /* Dark purple-grey background */
+    /* --bg-main: #534c6d40;              */
     --bg-chip: #392d61;              /* Deep purple chip */
-    --bg-chip-hover: #5141a5;        /* Electric purple on hover */
+    --bg-chip-hover: #5141a5;        
   
     --bg-answer: #2b2844;            /* Slightly darker for answer box */
   
