@@ -1,123 +1,137 @@
-
-
-
-/* To-Do List Container */
 .todo-container {
-  max-width: 400px;
-  margin: 50px auto;
+  max-width: 320px;
+  margin: auto;
   padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #2e294e, #3b2c66);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
 }
 
 /* Title */
 .todo-container h2 {
   text-align: center;
-  color: #333;
-  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #ffc1f3;
+  margin-bottom: 16px;
 }
 
-/* Input and Button Container */
+/* Input + Button Row */
 .input-container {
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
-/* Task Input */
+/* Input Field */
 .input-container input {
-  width: 75%;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  flex-grow: 1;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #f8f8f8;
+  color: #333;
   outline: none;
 }
 
 .input-container input:focus {
-  border-color: #007bff;
+  border: 2px solid #ff85c1;
 }
 
-/* Add Button */
-.input-container button {
-  width: 20%;
-  padding: 10px;
-  font-size: 1rem;
-  background-color: #007bff;
-  color: white;
+/* Add / Clear Buttons */
+.input-container button,
+.clear-btn {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: bold;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  background: linear-gradient(to right, #ff69b4, #ba55d3);
+  color: #fff;
+  transition: all 0.3s ease;
 }
 
-.input-container button:hover {
-  background-color: #0056b3;
+.input-container button:hover,
+.clear-btn:hover {
+  background: linear-gradient(to right, #ff92d0, #c577e2);
+  transform: translateY(-2px);
 }
 
 /* Task List */
 .task-list {
   list-style: none;
-  padding-left: 0;
+  padding: 0;
+  margin: 0;
 }
 
+/* Task Items */
 .task {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  margin: 5px 0;
-  background-color: #f9f9f9;
-  border-radius: 4px;
-  transition: transform 0.2s ease;
+  justify-content: space-between;
+  background-color: #3a2d59;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.task:hover {
+  background-color: #48346c;
 }
 
 .task.completed {
   text-decoration: line-through;
-  background-color: #e0ffe0;
+  background-color: #5e4b78;
   opacity: 0.6;
-  animation: strike-through 0.5s forwards;
 }
 
-@keyframes strike-through {
-  0% {
-    transform: scaleX(1);
-  }
-  100% {
-    transform: scaleX(1.1);
-  }
+/* Circle (Completion Icon Placeholder) */
+.circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ff69b4;
+  margin-right: 12px;
+  transition: all 0.3s ease;
+}
+
+.circle.completed {
+  background-color: #b19cd9;
+}
+
+/* Task Text */
+.task span {
+  flex: 1;
+  color: #fff;
+  font-size: 0.95rem;
 }
 
 /* Delete Button */
 .delete-btn {
-  padding: 5px 10px;
-  font-size: 1rem;
-  color: white;
   background-color: #e74c3c;
   border: none;
-  border-radius: 4px;
+  color: white;
+  font-size: 0.8rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-left: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .delete-btn:hover {
   background-color: #c0392b;
 }
 
-/* Clear All Button */
+/* Clear All Button (optional extra styling if placed outside input-container) */
 .clear-btn {
-  padding: 10px 20px;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 15px;
-  transition: background-color 0.3s ease;
-}
-
-.clear-btn:hover {
-  background-color: #c0392b;
+  margin-top: 10px;
+  width: 100%;
 }

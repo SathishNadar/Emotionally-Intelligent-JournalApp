@@ -1,6 +1,7 @@
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import React, { useState, useEffect, useRef } from 'react';
+import "./pomodoro-timer.css"
 
 function PomodoroTimer() {
   const predefinedTimes = [
@@ -61,7 +62,7 @@ function PomodoroTimer() {
           value={percentage}
           text={formatTime(timeLeft)}
           styles={buildStyles({
-            textColor: "#333",
+            // textColor: "#333",
             pathColor: "#007bff",
             trailColor: "#d6d6d6"
           })}

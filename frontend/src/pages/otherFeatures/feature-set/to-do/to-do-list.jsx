@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import  "./to-do-list.css";
 
 function ToDoList() {
   const [tasks, setTasks] = useState([]);
@@ -60,7 +61,7 @@ function ToDoList() {
           placeholder="Add a new task..." 
           onKeyDown={e => { if (e.key === 'Enter') addTask(); }}
         />
-        <button onClick={addTask}>Add</button>
+        <button onClick={addTask} className="clear-btn">Add</button>
         <button onClick={clearTasks} className="clear-btn" title="Clear all tasks">Clear</button>
       </div>
       <ul className="task-list">
