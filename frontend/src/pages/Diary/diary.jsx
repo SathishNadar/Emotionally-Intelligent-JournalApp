@@ -23,6 +23,23 @@ const AIDiary = () => {
     if (saved) setEntryText(saved);
   }, []);
 
+  const handleAnalyzeEmotion = async (text) => {
+    try {
+      const response = await fetch("http://127.0.0.1:5000/analyze_emotion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      });
+
+      const data = await response.json();
+      console.log("Detected Emotion:", data.emotion); // Log detected emotion
+    } catch (error) {
+      console.error("Error analyzing emotion:", error);
+    }
+  };
+
   const handleInputChange = (e) => {
     setEntryText(e.target.value);
     sessionStorage.setItem("diaryEntry", e.target.value);
@@ -40,7 +57,8 @@ const AIDiary = () => {
       setSavedEntries((prev) => [...prev, newEntry]);
       console.log("Saved entry:", newEntry);
 
-      // You could also send to backend here
+      // Call emotion analyzer function here
+      handleAnalyzeEmotion(entryText.trim());
 
       // Optionally clear textarea after saving:
       // setEntryText("");
