@@ -3,7 +3,7 @@ import './past.css';
 import DashboardNavbar from "../Navbar/Navbar";
 import Footers from "../footer/footers";
 
-const diaryEntriesPast = [
+let diaryEntriesPast = [
   { date: '2025-03-01', content: 'It was a peaceful day. I went on a walk and listened to my favorite music.' },
   { date: '2025-03-02', content: 'Had an intense coding session. AI Diary is starting to feel alive!' },
   { date: '2025-03-03', content: 'Feeling a bit down, but tomorrow is a new day.' },
@@ -14,6 +14,20 @@ const diaryEntriesPast = [
   { date: '2025-03-08', content: 'Struggled with motivation today. Just trying to push through.' },
   { date: 'The beginning after the end', content: 'More to come, more to feel, more to write... This is just the beginning of my story.' }
 ];
+
+try {
+  const firebase_id = localStorage.getItem('firebase_id');
+
+  const response = await fetch(`http://localhost:7777/db/get-user-diaries/${firebase_id}/`);
+  if (!response.ok) throw new Error('Failed to fetch diary data');
+
+  const data = await response.json();
+  diaryEntriesPast = data;
+
+  console.log('Fetched diary entries:', diaryEntriesPast);
+} catch (error) {
+  console.error('Error fetching diary entries:', error);
+}
 
 const Past = () => {
   const [currentPagePast, setCurrentPagePast] = useState(0);
@@ -41,7 +55,8 @@ const Past = () => {
       <div className="past-wrapper-past">
         <div className="page-container-past">
           <div className="page-past">
-            <div className="date-past">{diaryEntriesPast[currentPagePast].date}</div>
+            <div className="date-past">{diaryEntriesPast[currentPagePast].createdAt.split("T")[0]}</div>
+            <div className="">{diaryEntriesPast[currentPagePast].title}</div>
             <div className="content-past">{diaryEntriesPast[currentPagePast].content}</div>
           </div>
         </div>
